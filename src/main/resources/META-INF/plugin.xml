@@ -1,18 +1,60 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.gabotechs.graphqxlideaplugin</id>
-    <name>graphqxl-idea-plugin</name>
-    <vendor>gabotechs</vendor>
+    <name>Graphqxl</name>
+    <vendor>Gabriel Musat Mestre - gabimtme@gmail.com</vendor>
+
+    <description>
+        <![CDATA[
+      <p>GraphQXL language.</p>
+      <br/>
+      <p>Syntax highlighting, code-formatting and code assistance for the GraphQXL language</p>
+    ]]>
+    </description>
 
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.gabotechs.graphqxlideaplugin.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.gabotechs.graphqxlideaplugin.services.MyProjectService"/>
+        <fileType
+                name="GraphQXL"
+                implementationClass="com.github.gabotechs.graphqxlideaplugin.language.GraphQXLFileType"
+                fieldName="instance"
+                language="GraphQXL"
+                extensions="graphqxl"
+        />
+        <lang.parserDefinition
+                language="GraphQXL"
+                implementationClass="com.github.gabotechs.graphqxlideaplugin.language.GraphQXLParserDefinition"
+        />
+        <lang.syntaxHighlighterFactory
+                language="GraphQXL"
+                implementationClass="com.github.gabotechs.graphqxlideaplugin.language.GraphQXLSyntaxHighlighterFactory"
+        />
+        <completion.contributor
+                language="GraphQXL"
+                implementationClass="com.github.gabotechs.graphqxlideaplugin.language.GraphQXLCompletionContributor"
+        />
+        <lang.braceMatcher
+                language="GraphQXL"
+                implementationClass="com.github.gabotechs.graphqxlideaplugin.language.GraphQXLBraceMatcher"
+        />
+        <lang.quoteHandler
+                language="GraphQXL"
+                implementationClass="com.github.gabotechs.graphqxlideaplugin.language.GraphQXLQuoteHandler"
+        />
+        <lang.commenter
+                language="GraphQXL"
+                implementationClass="com.github.gabotechs.graphqxlideaplugin.language.GraphQXLCommenter"
+        />
+        <enterBetweenBracesDelegate
+                language="GraphQXL"
+                implementationClass="com.github.gabotechs.graphqxlideaplugin.language.GraphQXLEnterBetweenBracesHandler"
+        />
+        <annotator
+                language="GraphQXL"
+                implementationClass="com.github.gabotechs.graphqxlideaplugin.language.GraphQXLSyntaxAnnotator"
+                order="first"
+        />
     </extensions>
 
-    <applicationListeners>
-        <listener class="com.github.gabotechs.graphqxlideaplugin.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
 </idea-plugin>

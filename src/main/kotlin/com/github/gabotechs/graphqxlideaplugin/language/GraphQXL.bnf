@@ -1,0 +1,306 @@
+{
+  generate=[names="long" tokenAccessors="no"]
+  parserClass="com.github.gabotechs.graphqxlideaplugin.language.GraphQXLParser"
+  psiVisitorName="VisitorBase"
+
+  implements="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLElement"
+  extends="com.github.gabotechs.graphqxlideaplugin.language.psi.impl.GraphQXLElementImpl"
+
+  psiClassPrefix="GraphQXL"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.github.gabotechs.graphqxlideaplugin.language.psi"
+  psiImplPackage="com.github.gabotechs.graphqxlideaplugin.language.psi.impl"
+
+  elementTypeHolderClass="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLTypes"
+  elementTypeClass="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLElementType"
+  tokenTypeClass="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLTokenType"
+
+  implements("argument|directive|enumValue|field|fieldDefinition|inputValueDefinition|objectField|typeName|typeNameDefinition")="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLNamedElement"
+  mixin(     "argument|directive|enumValue|field|fieldDefinition|inputValueDefinition|objectField|typeName|typeNameDefinition")="com.github.gabotechs.graphqxlideaplugin.language.psi.impl.GraphQXLNamedElementImpl"
+
+  implements("typeDefinition|(field|inputValue|enumValue|directive|schema)Definition")="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLDescriptionAware"
+
+  tokens = [
+
+    // punctuation
+    BANG="!"
+    DOLLAR="$"
+    PAREN_L="("
+    PAREN_R=")"
+    SPREAD="..."
+    COLON=":"
+    EQUALS="="
+    AT="@"
+    BRACKET_L="["
+    BRACKET_R="]"
+    BRACE_L="{"
+    PIPE="|"
+    BRACE_R="}"
+    AMP="&"
+
+    // keywords
+    QUERY_KEYWORD="query"
+    MUTATION_KEYWORD="mutation"
+    SUBSCRIPTION_KEYWORD="subscription"
+    ON_KEYWORD="on"
+    SCHEMA_KEYWORD="schema"
+    TYPE_KEYWORD="type"
+    SCALAR_KEYWORD="scalar"
+    INTERFACE_KEYWORD="interface"
+    IMPLEMENTS_KEYWORD="implements"
+    ENUM_KEYWORD="enum"
+    UNION_KEYWORD="union"
+    INPUT_KEYWORD="input"
+    DIRECTIVE_KEYWORD="directive"
+    REPEATABLE_KEYWORD="repeatable"
+
+    WHITE_SPACE='regexp:[,\s]+'
+    EOL_COMMENT='regexp:#.*'
+
+    // identifiers and literals
+    VARIABLE_NAME='regexp:\$[_A-Za-z][_0-9A-Za-z]*'
+    NAME='regexp:[_A-Za-z][_0-9A-Za-z]*'
+    NUMBER='regexp:-?\d+'
+    FLOAT='regexp:-?\d+(\.\d+)?([eE][+-]?\d+)?'
+
+    // language injection
+    TEMPLATE_CHAR='regexp:.*'
+    TEMPLATE_START='${'
+  ]
+}
+
+document ::= definition*
+
+definition ::=
+  typeSystemDefinition
+  {
+    recoverWhile=definition_recover
+  }
+
+private definition_recover ::= !(root_tokens | NAME) /* NAME since incomplete keywords show up as such */
+
+private root_tokens ::=
+  definition_keywords | '{' /* anon query */ | OPEN_QUOTE | OPEN_TRIPLE_QUOTE /* schema description */ | (DOLLAR BRACE_L) /* placeholder */
+
+private definition_keywords ::=
+  'schema' | 'type' | 'interface' | 'input' | 'enum' | 'union' | 'scalar' | 'directive'
+
+// common
+
+operationType ::= QUERY_KEYWORD | MUTATION_KEYWORD | SUBSCRIPTION_KEYWORD
+
+description ::= stringLiteral
+
+enumValue ::= identifier {
+  methods=[nameIdentifier="identifier"]
+  extends=value
+}
+
+arrayValue::= '[' arrayValueElement* ']' {pin=1 extends=value}
+
+private arrayValueElement ::= value {pin=1 recoverWhile=arrayValueElement_recover}
+
+private arrayValueElement_recover ::= !(']'| value)
+
+objectValue::= '{' objectField* '}' {
+  pin=1
+  extends=value
+}
+
+objectField ::= identifier ':' value {
+  pin=1
+  methods=[nameIdentifier="identifier"]
+  recoverWhile=objectField_recover
+}
+
+private objectField_recover ::= !('}' | value)
+
+private directives ::= directive+
+
+directive ::='@' identifier arguments? {
+  pin=1
+  methods=[nameIdentifier="identifier"]
+}
+arguments ::= '(' argument+ ')' {pin=1}
+
+argument ::= identifier ':' value {
+  pin=1
+  methods=[nameIdentifier="identifier"]
+  recoverWhile=argument_recover
+}
+
+private argument_recover ::= !(')' | argument)
+
+identifier ::=
+  NAME | 'query' | 'mutation' | 'subscription' | 'schema' | 'scalar' | 'type' |
+  'interface' | 'implements' | 'enum' | 'union' | 'input' | 'directive' | 'on' | 'repeatable'
+
+
+value ::=
+    stringValue |
+    intValue |
+    floatValue |
+    booleanValue |
+    nullValue |
+    enumValue |
+    arrayValue |
+    objectValue
+
+defaultValue ::= '=' value {pin=1}
+
+type ::= nonNullType | listType | typeName
+
+typeName ::= !(definition_keywords) identifier {
+  extends=type
+  methods=[nameIdentifier="identifier"]
+}
+listType ::= '[' type ']' {extends=type}
+nonNullType ::= typeName BANG | listType BANG {extends=type}
+
+typeNameDefinition ::= !(definition_keywords) identifier {extends=type methods=[nameIdentifier="identifier"]}
+
+booleanValue ::= 'true' | 'false' {extends=value}
+
+nullValue ::= 'null' {extends=value}
+
+stringValue ::= stringLiteral {extends=value}
+stringLiteral ::= quotedString | blockString
+quotedString ::= OPEN_QUOTE REGULAR_STRING_PART? CLOSING_QUOTE {pin=1 extends=stringLiteral}
+blockString ::= OPEN_TRIPLE_QUOTE REGULAR_STRING_PART* CLOSING_TRIPLE_QUOTE {pin=1 extends=stringLiteral}
+
+intValue ::= NUMBER {extends=value}
+floatValue ::= FLOAT {extends=value}
+
+// operations
+
+selectionSet ::=  '{' selection+ '}' {pin=1}
+
+selection ::= field {
+    pin=1 recoverWhile=selection_recover
+}
+
+private selection_recover ::= !('}' | root_tokens | selection)
+
+field ::= alias? identifier arguments? directives? selectionSet? {
+   methods=[nameIdentifier="identifier"]
+}
+
+alias ::= identifier ':'
+
+// SDL
+
+typeSystemDefinition ::=
+    schemaDefinition |
+    typeDefinition |
+    directiveDefinition
+    {
+        extends=definition
+    }
+
+schemaDefinition ::= description? 'schema' directives? operationTypeDefinitions {
+  pin=2
+  extends=typeSystemDefinition
+}
+
+operationTypeDefinitions ::= '{' operationTypeDefinition+ '}' {pin=1}
+
+operationTypeDefinition ::= (operationType | NAME) ':' typeName {pin=1 recoverWhile=operationTypeDefinition_recover}
+
+private operationTypeDefinition_recover ::= !('}' | root_tokens | operationTypeDefinition)
+
+typeDefinition::=
+  scalarTypeDefinition |
+  objectTypeDefinition |
+  interfaceTypeDefinition |
+  unionTypeDefinition |
+  enumTypeDefinition |
+  inputObjectTypeDefinition
+  {
+    extends=typeSystemDefinition
+  }
+
+scalarTypeDefinition ::= description? 'scalar' typeNameDefinition directives? {
+  pin=2
+  extends=typeDefinition
+}
+
+objectTypeDefinition ::= description? 'type' typeNameDefinition implementsInterfaces? directives? fieldsDefinition? {
+  pin=2
+  extends=typeDefinition
+}
+
+implementsInterfaces ::= 'implements' ampTypeName ampTypeName* {pin=1}
+
+private ampTypeName ::= '&'? typeName
+
+fieldsDefinition ::= '{' fieldDefinition* '}' {pin=1}
+
+fieldDefinition ::= description? identifier argumentsDefinition? ':' type directives? {
+  pin=2
+  methods=[nameIdentifier="identifier"]
+  recoverWhile=fieldDefinition_recover
+}
+
+private fieldDefinition_recover ::= !('}' | root_tokens | fieldDefinition)
+
+argumentsDefinition ::= '(' inputValueDefinition+ ')' {pin=1}
+
+inputValueDefinition ::= description? identifier ':' type defaultValue? directives? {
+  pin=2
+  methods=[nameIdentifier="identifier"]
+  recoverWhile=inputValueDefinition_recover
+}
+
+private inputValueDefinition_recover ::= !(')' | '}' | inputValueDefinition)
+
+interfaceTypeDefinition ::= description? 'interface' typeNameDefinition implementsInterfaces? directives? fieldsDefinition? {
+  pin=2
+  extends=typeDefinition
+}
+
+unionTypeDefinition ::= description? 'union' typeNameDefinition directives? unionMembership? {
+  pin=2
+  extends=typeDefinition
+}
+
+unionMembership ::= '=' unionMembers {pin=1}
+
+unionMembers::= '|'? typeName pipeUnionMember*
+
+private pipeUnionMember ::= '|' typeName {pin=1}
+
+enumTypeDefinition ::= description? 'enum' typeNameDefinition directives? enumValueDefinitions? {
+  pin=2
+  extends=typeDefinition
+}
+
+enumValueDefinitions ::= '{' enumValueDefinition+ '}' {pin=1}
+
+enumValueDefinition ::= description? enumValue directives? {
+  pin=2
+  recoverWhile=enumValueDefinition_recover
+}
+
+private enumValueDefinition_recover ::= !('}' | enumValueDefinition | root_tokens)
+
+inputObjectTypeDefinition ::= description? 'input' typeNameDefinition directives? inputObjectValueDefinitions? {
+  pin=2
+  extends=typeDefinition
+}
+
+inputObjectValueDefinitions ::= '{' inputValueDefinition+ '}' {pin=1}
+
+directiveDefinition ::= description? 'directive' '@' identifier argumentsDefinition? 'repeatable'? 'on' directiveLocations {
+  pin=2
+  extends=typeSystemDefinition
+  methods=[nameIdentifier="identifier" repeatable="REPEATABLE_KEYWORD"]
+}
+
+directiveLocation ::=
+  'QUERY' | 'MUTATION' | 'SUBSCRIPTION' | 'FIELD' | 'FRAGMENT_DEFINITION' | 'FRAGMENT_SPREAD' | 'INLINE_FRAGMENT' |
+  'SCHEMA' | 'SCALAR' | 'OBJECT' | 'FIELD_DEFINITION' | 'ARGUMENT_DEFINITION' | 'INTERFACE' | 'UNION' | 'ENUM' |
+  'ENUM_VALUE' | 'INPUT_OBJECT' | 'INPUT_FIELD_DEFINITION' | NAME
+
+directiveLocations ::= '|'? directiveLocation pipeDirectiveLocation*
+
+private pipeDirectiveLocation ::= '|' directiveLocation

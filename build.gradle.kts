@@ -13,6 +13,8 @@ plugins {
     id("org.jetbrains.changelog") version "1.3.1"
     // Gradle Qodana Plugin
     id("org.jetbrains.qodana") version "0.1.13"
+
+    id("org.jetbrains.grammarkit") version "2021.2.2"
 }
 
 group = properties("pluginGroup")
@@ -54,6 +56,11 @@ qodana {
     showReport.set(System.getenv("QODANA_SHOW_REPORT")?.toBoolean() ?: false)
 }
 
+sourceSets["main"].java.srcDirs(
+    "src/main/gen",
+    "src/main/java"
+)
+
 tasks {
     wrapper {
         gradleVersion = properties("gradleVersion")
@@ -83,6 +90,12 @@ tasks {
                 getOrNull(properties("pluginVersion")) ?: getLatest()
             }.toHTML()
         })
+    }
+
+    grammarKit {
+        jflexRelease.set("1.7.0-1")
+        grammarKitRelease.set("2021.1.2")
+        intellijRelease.set("203.7717.81")
     }
 
     // Configure UI tests plugin
