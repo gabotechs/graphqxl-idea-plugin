@@ -32,4 +32,10 @@ public class GraphQXLFieldsDefinitionImpl extends GraphQXLElementImpl implements
     return PsiTreeUtil.getChildrenOfTypeAsList(this, GraphQXLFieldDefinition.class);
   }
 
+  @Override
+  @NotNull
+  public List<GraphQXLSpreadFieldDefinition> getSpreadFieldDefinitionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GraphQXLSpreadFieldDefinition.class);
+  }
+
 }

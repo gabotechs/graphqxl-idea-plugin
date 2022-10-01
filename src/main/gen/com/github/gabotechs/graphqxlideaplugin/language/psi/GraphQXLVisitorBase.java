@@ -187,6 +187,10 @@ public class GraphQXLVisitorBase extends PsiElementVisitor {
     visitElement(o);
   }
 
+  public void visitSpreadFieldDefinition(@NotNull GraphQXLSpreadFieldDefinition o) {
+    visitNamedElement(o);
+  }
+
   public void visitStringLiteral(@NotNull GraphQXLStringLiteral o) {
     visitElement(o);
   }

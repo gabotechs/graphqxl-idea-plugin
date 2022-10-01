@@ -10,4 +10,7 @@ public interface GraphQXLFieldsDefinition extends GraphQXLElement {
   @NotNull
   List<GraphQXLFieldDefinition> getFieldDefinitionList();
 
+  @NotNull
+  List<GraphQXLSpreadFieldDefinition> getSpreadFieldDefinitionList();
+
 }

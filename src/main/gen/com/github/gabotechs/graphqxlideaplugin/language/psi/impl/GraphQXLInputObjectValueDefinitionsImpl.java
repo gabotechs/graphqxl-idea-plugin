@@ -32,4 +32,10 @@ public class GraphQXLInputObjectValueDefinitionsImpl extends GraphQXLElementImpl
     return PsiTreeUtil.getChildrenOfTypeAsList(this, GraphQXLInputValueDefinition.class);
   }
 
+  @Override
+  @NotNull
+  public List<GraphQXLSpreadFieldDefinition> getSpreadFieldDefinitionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GraphQXLSpreadFieldDefinition.class);
+  }
+
 }

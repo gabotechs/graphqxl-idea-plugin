@@ -15,8 +15,8 @@
   elementTypeClass="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLElementType"
   tokenTypeClass="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLTokenType"
 
-  implements("argument|directive|enumValue|field|fieldDefinition|inputValueDefinition|objectField|typeName|typeNameDefinition")="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLNamedElement"
-  mixin(     "argument|directive|enumValue|field|fieldDefinition|inputValueDefinition|objectField|typeName|typeNameDefinition")="com.github.gabotechs.graphqxlideaplugin.language.psi.impl.GraphQXLNamedElementImpl"
+  implements("argument|directive|enumValue|field|fieldDefinition|spreadFieldDefinition|inputValueDefinition|objectField|typeName|typeNameDefinition")="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLNamedElement"
+  mixin(     "argument|directive|enumValue|field|fieldDefinition|spreadFieldDefinition|inputValueDefinition|objectField|typeName|typeNameDefinition")="com.github.gabotechs.graphqxlideaplugin.language.psi.impl.GraphQXLNamedElementImpl"
 
   implements("typeDefinition|(field|inputValue|enumValue|directive|schema)Definition")="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLDescriptionAware"
 
@@ -236,7 +236,13 @@ implementsInterfaces ::= 'implements' ampTypeName ampTypeName* {pin=1}
 
 private ampTypeName ::= '&'? typeName
 
-fieldsDefinition ::= '{' fieldDefinition* '}' {pin=1}
+fieldsDefinition ::= '{' (fieldDefinition | spreadFieldDefinition)* '}' {pin=1}
+
+spreadFieldDefinition ::= "..." identifier {
+  pin=2
+  methods=[nameIdentifier="identifier"]
+  recoverWhile=fieldDefinition_recover
+}
 
 fieldDefinition ::= description? identifier argumentsDefinition? ':' type directives? {
   pin=2
@@ -244,7 +250,7 @@ fieldDefinition ::= description? identifier argumentsDefinition? ':' type direct
   recoverWhile=fieldDefinition_recover
 }
 
-private fieldDefinition_recover ::= !('}' | root_tokens | fieldDefinition)
+private fieldDefinition_recover ::= !('}' | root_tokens | fieldDefinition | spreadFieldDefinition)
 
 argumentsDefinition ::= '(' inputValueDefinition+ ')' {pin=1}
 
@@ -291,7 +297,7 @@ inputObjectTypeDefinition ::= description? 'input' typeNameDefinition directives
   extends=typeDefinition
 }
 
-inputObjectValueDefinitions ::= '{' inputValueDefinition+ '}' {pin=1}
+inputObjectValueDefinitions ::= '{' (inputValueDefinition | spreadFieldDefinition)+ '}' {pin=1}
 
 directiveDefinition ::= description? 'directive' '@' identifier argumentsDefinition? 'repeatable'? 'on' directiveLocations {
   pin=2

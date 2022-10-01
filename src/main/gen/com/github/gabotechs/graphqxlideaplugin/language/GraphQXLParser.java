@@ -727,7 +727,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !('}' | root_tokens | fieldDefinition)
+  // !('}' | root_tokens | fieldDefinition | spreadFieldDefinition)
   static boolean fieldDefinition_recover(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "fieldDefinition_recover")) return false;
     boolean result;
@@ -737,7 +737,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     return result;
   }
 
-  // '}' | root_tokens | fieldDefinition
+  // '}' | root_tokens | fieldDefinition | spreadFieldDefinition
   private static boolean fieldDefinition_recover_0(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "fieldDefinition_recover_0")) return false;
     boolean result;
@@ -745,12 +745,13 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     result = consumeToken(builder, BRACE_R);
     if (!result) result = root_tokens(builder, level + 1);
     if (!result) result = fieldDefinition(builder, level + 1);
+    if (!result) result = spreadFieldDefinition(builder, level + 1);
     exit_section_(builder, marker, null, result);
     return result;
   }
 
   /* ********************************************************** */
-  // '{' fieldDefinition* '}'
+  // '{' (fieldDefinition | spreadFieldDefinition)* '}'
   public static boolean fieldsDefinition(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "fieldsDefinition")) return false;
     if (!nextTokenIs(builder, BRACE_L)) return false;
@@ -764,15 +765,26 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     return result || pinned;
   }
 
-  // fieldDefinition*
+  // (fieldDefinition | spreadFieldDefinition)*
   private static boolean fieldsDefinition_1(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "fieldsDefinition_1")) return false;
     while (true) {
       int pos = current_position_(builder);
-      if (!fieldDefinition(builder, level + 1)) break;
+      if (!fieldsDefinition_1_0(builder, level + 1)) break;
       if (!empty_element_parsed_guard_(builder, "fieldsDefinition_1", pos)) break;
     }
     return true;
+  }
+
+  // fieldDefinition | spreadFieldDefinition
+  private static boolean fieldsDefinition_1_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "fieldsDefinition_1_0")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = fieldDefinition(builder, level + 1);
+    if (!result) result = spreadFieldDefinition(builder, level + 1);
+    exit_section_(builder, marker, null, result);
+    return result;
   }
 
   /* ********************************************************** */
@@ -898,7 +910,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // '{' inputValueDefinition+ '}'
+  // '{' (inputValueDefinition | spreadFieldDefinition)+ '}'
   public static boolean inputObjectValueDefinitions(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "inputObjectValueDefinitions")) return false;
     if (!nextTokenIs(builder, BRACE_L)) return false;
@@ -912,17 +924,28 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     return result || pinned;
   }
 
-  // inputValueDefinition+
+  // (inputValueDefinition | spreadFieldDefinition)+
   private static boolean inputObjectValueDefinitions_1(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "inputObjectValueDefinitions_1")) return false;
     boolean result;
     Marker marker = enter_section_(builder);
-    result = inputValueDefinition(builder, level + 1);
+    result = inputObjectValueDefinitions_1_0(builder, level + 1);
     while (result) {
       int pos = current_position_(builder);
-      if (!inputValueDefinition(builder, level + 1)) break;
+      if (!inputObjectValueDefinitions_1_0(builder, level + 1)) break;
       if (!empty_element_parsed_guard_(builder, "inputObjectValueDefinitions_1", pos)) break;
     }
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  // inputValueDefinition | spreadFieldDefinition
+  private static boolean inputObjectValueDefinitions_1_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "inputObjectValueDefinitions_1_0")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = inputValueDefinition(builder, level + 1);
+    if (!result) result = spreadFieldDefinition(builder, level + 1);
     exit_section_(builder, marker, null, result);
     return result;
   }
@@ -1491,6 +1514,18 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     if (!result) result = root_tokens(builder, level + 1);
     if (!result) result = selection(builder, level + 1);
     exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  /* ********************************************************** */
+  // "..." identifier
+  public static boolean spreadFieldDefinition(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "spreadFieldDefinition")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder, level, _NONE_, SPREAD_FIELD_DEFINITION, "<spread field definition>");
+    result = consumeToken(builder, SPREAD);
+    result = result && identifier(builder, level + 1);
+    exit_section_(builder, level, marker, result, false, GraphQXLParser::fieldDefinition_recover);
     return result;
   }
 
