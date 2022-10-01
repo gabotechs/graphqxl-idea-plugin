@@ -483,13 +483,35 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // definition*
+  // import* definition*
   static boolean document(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "document")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = document_0(builder, level + 1);
+    result = result && document_1(builder, level + 1);
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  // import*
+  private static boolean document_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "document_0")) return false;
+    while (true) {
+      int pos = current_position_(builder);
+      if (!import_$(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "document_0", pos)) break;
+    }
+    return true;
+  }
+
+  // definition*
+  private static boolean document_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "document_1")) return false;
     while (true) {
       int pos = current_position_(builder);
       if (!definition(builder, level + 1)) break;
-      if (!empty_element_parsed_guard_(builder, "document", pos)) break;
+      if (!empty_element_parsed_guard_(builder, "document_1", pos)) break;
     }
     return true;
   }
@@ -814,6 +836,27 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
       if (!ampTypeName(builder, level + 1)) break;
       if (!empty_element_parsed_guard_(builder, "implementsInterfaces_2", pos)) break;
     }
+    return true;
+  }
+
+  /* ********************************************************** */
+  // "import" OPEN_QUOTE REGULAR_STRING_PART? CLOSING_QUOTE
+  public static boolean import_$(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "import_$")) return false;
+    if (!nextTokenIs(builder, IMPORT_KEYWORD)) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = consumeTokens(builder, 0, IMPORT_KEYWORD, OPEN_QUOTE);
+    result = result && import_2(builder, level + 1);
+    result = result && consumeToken(builder, CLOSING_QUOTE);
+    exit_section_(builder, marker, IMPORT, result);
+    return result;
+  }
+
+  // REGULAR_STRING_PART?
+  private static boolean import_2(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "import_2")) return false;
+    consumeToken(builder, REGULAR_STRING_PART);
     return true;
   }
 

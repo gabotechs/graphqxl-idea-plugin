@@ -7,6 +7,7 @@ class GraphQXLExtendedElementTypes {
 
     companion object {
         val KEYWORDS = TokenSet.create(
+            IMPORT_KEYWORD,
             QUERY_KEYWORD,
             MUTATION_KEYWORD,
             SUBSCRIPTION_KEYWORD,

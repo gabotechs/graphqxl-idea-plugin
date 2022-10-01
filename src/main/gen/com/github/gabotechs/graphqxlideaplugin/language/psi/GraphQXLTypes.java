@@ -32,6 +32,7 @@ public interface GraphQXLTypes {
   IElementType FLOAT_VALUE = new GraphQXLElementType("FLOAT_VALUE");
   IElementType IDENTIFIER = new GraphQXLElementType("IDENTIFIER");
   IElementType IMPLEMENTS_INTERFACES = new GraphQXLElementType("IMPLEMENTS_INTERFACES");
+  IElementType IMPORT = new GraphQXLElementType("IMPORT");
   IElementType INPUT_OBJECT_TYPE_DEFINITION = new GraphQXLElementType("INPUT_OBJECT_TYPE_DEFINITION");
   IElementType INPUT_OBJECT_VALUE_DEFINITIONS = new GraphQXLElementType("INPUT_OBJECT_VALUE_DEFINITIONS");
   IElementType INPUT_VALUE_DEFINITION = new GraphQXLElementType("INPUT_VALUE_DEFINITION");
@@ -80,6 +81,7 @@ public interface GraphQXLTypes {
   IElementType EQUALS = new GraphQXLTokenType("=");
   IElementType FLOAT = new GraphQXLTokenType("FLOAT");
   IElementType IMPLEMENTS_KEYWORD = new GraphQXLTokenType("implements");
+  IElementType IMPORT_KEYWORD = new GraphQXLTokenType("import");
   IElementType INPUT_KEYWORD = new GraphQXLTokenType("input");
   IElementType INTERFACE_KEYWORD = new GraphQXLTokenType("interface");
   IElementType MUTATION_KEYWORD = new GraphQXLTokenType("mutation");
@@ -178,6 +180,9 @@ public interface GraphQXLTypes {
       }
       else if (type == IMPLEMENTS_INTERFACES) {
         return new GraphQXLImplementsInterfacesImpl(node);
+      }
+      else if (type == IMPORT) {
+        return new GraphQXLImportImpl(node);
       }
       else if (type == INPUT_OBJECT_TYPE_DEFINITION) {
         return new GraphQXLInputObjectTypeDefinitionImpl(node);

@@ -105,6 +105,10 @@ public class GraphQXLVisitorBase extends PsiElementVisitor {
     visitElement(o);
   }
 
+  public void visitImport(@NotNull GraphQXLImport o) {
+    visitElement(o);
+  }
+
   public void visitInputObjectTypeDefinition(@NotNull GraphQXLInputObjectTypeDefinition o) {
     visitTypeDefinition(o);
   }

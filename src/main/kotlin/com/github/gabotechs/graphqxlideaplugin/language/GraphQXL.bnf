@@ -39,6 +39,7 @@
     AMP="&"
 
     // keywords
+    IMPORT_KEYWORD="import"
     QUERY_KEYWORD="query"
     MUTATION_KEYWORD="mutation"
     SUBSCRIPTION_KEYWORD="subscription"
@@ -69,7 +70,9 @@
   ]
 }
 
-document ::= definition*
+document ::= import* definition*
+
+import ::= "import" OPEN_QUOTE REGULAR_STRING_PART? CLOSING_QUOTE
 
 definition ::=
   typeSystemDefinition

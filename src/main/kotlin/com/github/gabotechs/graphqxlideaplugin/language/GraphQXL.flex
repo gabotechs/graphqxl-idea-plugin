@@ -118,6 +118,7 @@ FLOAT = {INTEGER_PART} {FRACTIONAL_PART} | {INTEGER_PART} {EXPONENT_PART} | {INT
   "&"                { return AMP; }
 
   // keywords
+  "import"           { return IMPORT_KEYWORD; }
   "query"            { return QUERY_KEYWORD; }
   "mutation"         { return MUTATION_KEYWORD; }
   "subscription"     { return SUBSCRIPTION_KEYWORD; }
