@@ -15,8 +15,8 @@
   elementTypeClass="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLElementType"
   tokenTypeClass="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLTokenType"
 
-  implements("argument|directive|enumValue|field|fieldDefinition|spreadFieldDefinition|inputValueDefinition|objectField|typeName|typeNameDefinition")="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLNamedElement"
-  mixin(     "argument|directive|enumValue|field|fieldDefinition|spreadFieldDefinition|inputValueDefinition|objectField|typeName|typeNameDefinition")="com.github.gabotechs.graphqxlideaplugin.language.psi.impl.GraphQXLNamedElementImpl"
+  implements("argument|directive|enumValue|field|fieldDefinition|spreadFieldDefinition|inputValueDefinition|spreadInputDefinition|objectField|typeName|typeNameDefinition")="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLNamedElement"
+  mixin(     "argument|directive|enumValue|field|fieldDefinition|spreadFieldDefinition|inputValueDefinition|spreadInputDefinition|objectField|typeName|typeNameDefinition")="com.github.gabotechs.graphqxlideaplugin.language.psi.impl.GraphQXLNamedElementImpl"
 
   implements("typeDefinition|(field|inputValue|enumValue|directive|schema)Definition")="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLDescriptionAware"
 
@@ -72,7 +72,7 @@
 
 document ::= import* definition*
 
-import ::= "import" OPEN_QUOTE REGULAR_STRING_PART? CLOSING_QUOTE
+import ::= "import" quotedString
 
 definition ::=
   typeSystemDefinition
@@ -238,7 +238,7 @@ private ampTypeName ::= '&'? typeName
 
 fieldsDefinition ::= '{' (fieldDefinition | spreadFieldDefinition)* '}' {pin=1}
 
-spreadFieldDefinition ::= "..." identifier {
+spreadFieldDefinition ::= '...' identifier {
   pin=2
   methods=[nameIdentifier="identifier"]
   recoverWhile=fieldDefinition_recover
@@ -260,7 +260,7 @@ inputValueDefinition ::= description? identifier ':' type defaultValue? directiv
   recoverWhile=inputValueDefinition_recover
 }
 
-private inputValueDefinition_recover ::= !(')' | '}' | inputValueDefinition)
+private inputValueDefinition_recover ::= !(')' | '}' | inputValueDefinition | spreadInputDefinition)
 
 interfaceTypeDefinition ::= description? 'interface' typeNameDefinition implementsInterfaces? directives? fieldsDefinition? {
   pin=2
@@ -297,7 +297,13 @@ inputObjectTypeDefinition ::= description? 'input' typeNameDefinition directives
   extends=typeDefinition
 }
 
-inputObjectValueDefinitions ::= '{' (inputValueDefinition | spreadFieldDefinition)+ '}' {pin=1}
+inputObjectValueDefinitions ::= '{' (inputValueDefinition | spreadInputDefinition)* '}' {pin=1}
+
+spreadInputDefinition ::= '...' identifier {
+  pin=2
+  methods=[nameIdentifier="identifier"]
+  recoverWhile=inputValueDefinition_recover
+}
 
 directiveDefinition ::= description? 'directive' '@' identifier argumentsDefinition? 'repeatable'? 'on' directiveLocations {
   pin=2

@@ -10,14 +10,14 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLTypes.*;
 import com.github.gabotechs.graphqxlideaplugin.language.psi.*;
 
-public class GraphQXLInputObjectValueDefinitionsImpl extends GraphQXLElementImpl implements GraphQXLInputObjectValueDefinitions {
+public class GraphQXLSpreadFieldDefinitionImpl extends GraphQXLNamedElementImpl implements GraphQXLSpreadFieldDefinition {
 
-  public GraphQXLInputObjectValueDefinitionsImpl(@NotNull ASTNode node) {
+  public GraphQXLSpreadFieldDefinitionImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GraphQXLVisitorBase visitor) {
-    visitor.visitInputObjectValueDefinitions(this);
+    visitor.visitSpreadFieldDefinition(this);
   }
 
   @Override
@@ -28,14 +28,8 @@ public class GraphQXLInputObjectValueDefinitionsImpl extends GraphQXLElementImpl
 
   @Override
   @NotNull
-  public List<GraphQXLInputValueDefinition> getInputValueDefinitionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GraphQXLInputValueDefinition.class);
-  }
-
-  @Override
-  @NotNull
-  public List<GraphQXLSpreadInputDefinition> getSpreadInputDefinitionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GraphQXLSpreadInputDefinition.class);
+  public GraphQXLIdentifier getNameIdentifier() {
+    return findNotNullChildByClass(GraphQXLIdentifier.class);
   }
 
 }

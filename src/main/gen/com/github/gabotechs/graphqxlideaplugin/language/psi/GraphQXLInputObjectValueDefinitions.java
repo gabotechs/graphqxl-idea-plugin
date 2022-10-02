@@ -11,6 +11,6 @@ public interface GraphQXLInputObjectValueDefinitions extends GraphQXLElement {
   List<GraphQXLInputValueDefinition> getInputValueDefinitionList();
 
   @NotNull
-  List<GraphQXLSpreadFieldDefinition> getSpreadFieldDefinitionList();
+  List<GraphQXLSpreadInputDefinition> getSpreadInputDefinitionList();
 
 }

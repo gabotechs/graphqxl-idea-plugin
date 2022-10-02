@@ -53,6 +53,7 @@ public interface GraphQXLTypes {
   IElementType SELECTION = new GraphQXLElementType("SELECTION");
   IElementType SELECTION_SET = new GraphQXLElementType("SELECTION_SET");
   IElementType SPREAD_FIELD_DEFINITION = new GraphQXLElementType("SPREAD_FIELD_DEFINITION");
+  IElementType SPREAD_INPUT_DEFINITION = new GraphQXLElementType("SPREAD_INPUT_DEFINITION");
   IElementType STRING_LITERAL = new GraphQXLElementType("STRING_LITERAL");
   IElementType STRING_VALUE = new GraphQXLElementType("STRING_VALUE");
   IElementType TYPE = new GraphQXLElementType("TYPE");
@@ -244,6 +245,9 @@ public interface GraphQXLTypes {
       }
       else if (type == SPREAD_FIELD_DEFINITION) {
         return new GraphQXLSpreadFieldDefinitionImpl(node);
+      }
+      else if (type == SPREAD_INPUT_DEFINITION) {
+        return new GraphQXLSpreadInputDefinitionImpl(node);
       }
       else if (type == STRING_VALUE) {
         return new GraphQXLStringValueImpl(node);

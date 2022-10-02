@@ -852,24 +852,16 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "import" OPEN_QUOTE REGULAR_STRING_PART? CLOSING_QUOTE
+  // "import" quotedString
   public static boolean import_$(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "import_$")) return false;
     if (!nextTokenIs(builder, IMPORT_KEYWORD)) return false;
     boolean result;
     Marker marker = enter_section_(builder);
-    result = consumeTokens(builder, 0, IMPORT_KEYWORD, OPEN_QUOTE);
-    result = result && import_2(builder, level + 1);
-    result = result && consumeToken(builder, CLOSING_QUOTE);
+    result = consumeToken(builder, IMPORT_KEYWORD);
+    result = result && quotedString(builder, level + 1);
     exit_section_(builder, marker, IMPORT, result);
     return result;
-  }
-
-  // REGULAR_STRING_PART?
-  private static boolean import_2(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "import_2")) return false;
-    consumeToken(builder, REGULAR_STRING_PART);
-    return true;
   }
 
   /* ********************************************************** */
@@ -910,7 +902,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // '{' (inputValueDefinition | spreadFieldDefinition)+ '}'
+  // '{' (inputValueDefinition | spreadInputDefinition)* '}'
   public static boolean inputObjectValueDefinitions(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "inputObjectValueDefinitions")) return false;
     if (!nextTokenIs(builder, BRACE_L)) return false;
@@ -924,28 +916,24 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     return result || pinned;
   }
 
-  // (inputValueDefinition | spreadFieldDefinition)+
+  // (inputValueDefinition | spreadInputDefinition)*
   private static boolean inputObjectValueDefinitions_1(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "inputObjectValueDefinitions_1")) return false;
-    boolean result;
-    Marker marker = enter_section_(builder);
-    result = inputObjectValueDefinitions_1_0(builder, level + 1);
-    while (result) {
+    while (true) {
       int pos = current_position_(builder);
       if (!inputObjectValueDefinitions_1_0(builder, level + 1)) break;
       if (!empty_element_parsed_guard_(builder, "inputObjectValueDefinitions_1", pos)) break;
     }
-    exit_section_(builder, marker, null, result);
-    return result;
+    return true;
   }
 
-  // inputValueDefinition | spreadFieldDefinition
+  // inputValueDefinition | spreadInputDefinition
   private static boolean inputObjectValueDefinitions_1_0(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "inputObjectValueDefinitions_1_0")) return false;
     boolean result;
     Marker marker = enter_section_(builder);
     result = inputValueDefinition(builder, level + 1);
-    if (!result) result = spreadFieldDefinition(builder, level + 1);
+    if (!result) result = spreadInputDefinition(builder, level + 1);
     exit_section_(builder, marker, null, result);
     return result;
   }
@@ -989,7 +977,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !(')' | '}' | inputValueDefinition)
+  // !(')' | '}' | inputValueDefinition | spreadInputDefinition)
   static boolean inputValueDefinition_recover(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "inputValueDefinition_recover")) return false;
     boolean result;
@@ -999,7 +987,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     return result;
   }
 
-  // ')' | '}' | inputValueDefinition
+  // ')' | '}' | inputValueDefinition | spreadInputDefinition
   private static boolean inputValueDefinition_recover_0(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "inputValueDefinition_recover_0")) return false;
     boolean result;
@@ -1007,6 +995,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     result = consumeToken(builder, PAREN_R);
     if (!result) result = consumeToken(builder, BRACE_R);
     if (!result) result = inputValueDefinition(builder, level + 1);
+    if (!result) result = spreadInputDefinition(builder, level + 1);
     exit_section_(builder, marker, null, result);
     return result;
   }
@@ -1518,7 +1507,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "..." identifier
+  // '...' identifier
   public static boolean spreadFieldDefinition(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "spreadFieldDefinition")) return false;
     boolean result;
@@ -1526,6 +1515,18 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     result = consumeToken(builder, SPREAD);
     result = result && identifier(builder, level + 1);
     exit_section_(builder, level, marker, result, false, GraphQXLParser::fieldDefinition_recover);
+    return result;
+  }
+
+  /* ********************************************************** */
+  // '...' identifier
+  public static boolean spreadInputDefinition(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "spreadInputDefinition")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder, level, _NONE_, SPREAD_INPUT_DEFINITION, "<spread input definition>");
+    result = consumeToken(builder, SPREAD);
+    result = result && identifier(builder, level + 1);
+    exit_section_(builder, level, marker, result, false, GraphQXLParser::inputValueDefinition_recover);
     return result;
   }
 
