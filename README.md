@@ -7,9 +7,9 @@
 ## Template ToDo list
 
 - [x] Syntax Highlighting for basic GraphQL
-- [ ] Syntax Highlighting for object inheritance
-- [ ] Syntax Highlighting for import statements
-- [ ] Syntax Highlighting for generics
+- [x] Syntax Highlighting for object inheritance
+- [x] Syntax Highlighting for import statements
+- [x] Syntax Highlighting for generics
 - [ ] Error annotation
 - [ ] Code autocompletion
 
