@@ -30,6 +30,10 @@ public interface GraphQXLTypes {
   IElementType FIELDS_DEFINITION = new GraphQXLElementType("FIELDS_DEFINITION");
   IElementType FIELD_DEFINITION = new GraphQXLElementType("FIELD_DEFINITION");
   IElementType FLOAT_VALUE = new GraphQXLElementType("FLOAT_VALUE");
+  IElementType GENERIC = new GraphQXLElementType("GENERIC");
+  IElementType GENERIC_CALL = new GraphQXLElementType("GENERIC_CALL");
+  IElementType GENERIC_INPUT_OBJECT_TYPE_DEFINITION = new GraphQXLElementType("GENERIC_INPUT_OBJECT_TYPE_DEFINITION");
+  IElementType GENERIC_OBJECT_TYPE_DEFINITION = new GraphQXLElementType("GENERIC_OBJECT_TYPE_DEFINITION");
   IElementType IDENTIFIER = new GraphQXLElementType("IDENTIFIER");
   IElementType IMPLEMENTS_INTERFACES = new GraphQXLElementType("IMPLEMENTS_INTERFACES");
   IElementType IMPORT = new GraphQXLElementType("IMPORT");
@@ -67,6 +71,8 @@ public interface GraphQXLTypes {
   IElementType VALUE = new GraphQXLElementType("VALUE");
 
   IElementType AMP = new GraphQXLTokenType("&");
+  IElementType ANGLE_BRACKET_L = new GraphQXLTokenType("<");
+  IElementType ANGLE_BRACKET_R = new GraphQXLTokenType(">");
   IElementType AT = new GraphQXLTokenType("@");
   IElementType BANG = new GraphQXLTokenType("!");
   IElementType BRACE_L = new GraphQXLTokenType("{");
@@ -176,6 +182,18 @@ public interface GraphQXLTypes {
       }
       else if (type == FLOAT_VALUE) {
         return new GraphQXLFloatValueImpl(node);
+      }
+      else if (type == GENERIC) {
+        return new GraphQXLGenericImpl(node);
+      }
+      else if (type == GENERIC_CALL) {
+        return new GraphQXLGenericCallImpl(node);
+      }
+      else if (type == GENERIC_INPUT_OBJECT_TYPE_DEFINITION) {
+        return new GraphQXLGenericInputObjectTypeDefinitionImpl(node);
+      }
+      else if (type == GENERIC_OBJECT_TYPE_DEFINITION) {
+        return new GraphQXLGenericObjectTypeDefinitionImpl(node);
       }
       else if (type == IDENTIFIER) {
         return new GraphQXLIdentifierImpl(node);

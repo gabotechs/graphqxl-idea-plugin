@@ -47,6 +47,12 @@ public class GraphQXLObjectTypeDefinitionImpl extends GraphQXLTypeDefinitionImpl
 
   @Override
   @Nullable
+  public GraphQXLGeneric getGeneric() {
+    return findChildByClass(GraphQXLGeneric.class);
+  }
+
+  @Override
+  @Nullable
   public GraphQXLImplementsInterfaces getImplementsInterfaces() {
     return findChildByClass(GraphQXLImplementsInterfaces.class);
   }

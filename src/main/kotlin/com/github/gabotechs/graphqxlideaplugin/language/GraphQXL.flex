@@ -111,7 +111,9 @@ FLOAT = {INTEGER_PART} {FRACTIONAL_PART} | {INTEGER_PART} {EXPONENT_PART} | {INT
   "="                { return EQUALS; }
   "@"                { return AT; }
   "["                { return BRACKET_L; }
+  "<"                { return ANGLE_BRACKET_L; }
   "]"                { return BRACKET_R; }
+  ">"                { return ANGLE_BRACKET_R; }
   "{"                { return BRACE_L; }
   "|"                { return PIPE; }
   "}"                { return BRACE_R; }

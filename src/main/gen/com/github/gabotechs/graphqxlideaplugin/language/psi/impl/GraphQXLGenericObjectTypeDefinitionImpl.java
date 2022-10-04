@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLTypes.*;
 import com.github.gabotechs.graphqxlideaplugin.language.psi.*;
 
-public class GraphQXLInputObjectTypeDefinitionImpl extends GraphQXLTypeDefinitionImpl implements GraphQXLInputObjectTypeDefinition {
+public class GraphQXLGenericObjectTypeDefinitionImpl extends GraphQXLTypeDefinitionImpl implements GraphQXLGenericObjectTypeDefinition {
 
-  public GraphQXLInputObjectTypeDefinitionImpl(@NotNull ASTNode node) {
+  public GraphQXLGenericObjectTypeDefinitionImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull GraphQXLVisitorBase visitor) {
-    visitor.visitInputObjectTypeDefinition(this);
+    visitor.visitGenericObjectTypeDefinition(this);
   }
 
   @Override
@@ -34,27 +34,21 @@ public class GraphQXLInputObjectTypeDefinitionImpl extends GraphQXLTypeDefinitio
   }
 
   @Override
+  @Nullable
+  public GraphQXLGenericCall getGenericCall() {
+    return findChildByClass(GraphQXLGenericCall.class);
+  }
+
+  @Override
+  @Nullable
+  public GraphQXLIdentifier getIdentifier() {
+    return findChildByClass(GraphQXLIdentifier.class);
+  }
+
+  @Override
   @NotNull
-  public List<GraphQXLDirective> getDirectiveList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GraphQXLDirective.class);
-  }
-
-  @Override
-  @Nullable
-  public GraphQXLGeneric getGeneric() {
-    return findChildByClass(GraphQXLGeneric.class);
-  }
-
-  @Override
-  @Nullable
-  public GraphQXLInputObjectValueDefinitions getInputObjectValueDefinitions() {
-    return findChildByClass(GraphQXLInputObjectValueDefinitions.class);
-  }
-
-  @Override
-  @Nullable
   public GraphQXLTypeNameDefinition getTypeNameDefinition() {
-    return findChildByClass(GraphQXLTypeNameDefinition.class);
+    return findNotNullChildByClass(GraphQXLTypeNameDefinition.class);
   }
 
 }

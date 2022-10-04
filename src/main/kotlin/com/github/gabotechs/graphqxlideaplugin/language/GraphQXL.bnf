@@ -32,7 +32,9 @@
     EQUALS="="
     AT="@"
     BRACKET_L="["
+    ANGLE_BRACKET_L="<"
     BRACKET_R="]"
+    ANGLE_BRACKET_R=">"
     BRACE_L="{"
     PIPE="|"
     BRACE_R="}"
@@ -213,10 +215,12 @@ private operationTypeDefinition_recover ::= !('}' | root_tokens | operationTypeD
 
 typeDefinition::=
   scalarTypeDefinition |
+  genericObjectTypeDefinition |
   objectTypeDefinition |
   interfaceTypeDefinition |
   unionTypeDefinition |
   enumTypeDefinition |
+  genericInputObjectTypeDefinition |
   inputObjectTypeDefinition
   {
     extends=typeSystemDefinition
@@ -227,9 +231,20 @@ scalarTypeDefinition ::= description? 'scalar' typeNameDefinition directives? {
   extends=typeDefinition
 }
 
-objectTypeDefinition ::= description? 'type' typeNameDefinition implementsInterfaces? directives? fieldsDefinition? {
+objectTypeDefinition ::= description? 'type' typeNameDefinition generic? implementsInterfaces? directives? fieldsDefinition? {
   pin=2
   extends=typeDefinition
+}
+
+generic ::= '<' identifier+ '>' {
+    methods=[nameIdentifier="identifier"]
+}
+
+generic_call ::= '<' type+ '>'
+
+genericObjectTypeDefinition ::= description? 'type' typeNameDefinition '=' identifier generic_call {
+    pin=4
+    extends=typeDefinition
 }
 
 implementsInterfaces ::= 'implements' ampTypeName ampTypeName* {pin=1}
@@ -292,8 +307,13 @@ enumValueDefinition ::= description? enumValue directives? {
 
 private enumValueDefinition_recover ::= !('}' | enumValueDefinition | root_tokens)
 
-inputObjectTypeDefinition ::= description? 'input' typeNameDefinition directives? inputObjectValueDefinitions? {
+inputObjectTypeDefinition ::= description? 'input' typeNameDefinition generic? directives? inputObjectValueDefinitions? {
   pin=2
+  extends=typeDefinition
+}
+
+genericInputObjectTypeDefinition ::= description? 'input' typeNameDefinition '=' identifier generic_call {
+  pin=4
   extends=typeDefinition
 }
 

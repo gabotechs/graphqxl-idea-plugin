@@ -42,9 +42,10 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     create_token_set_(ARRAY_VALUE, BOOLEAN_VALUE, ENUM_VALUE, FLOAT_VALUE,
       INT_VALUE, NULL_VALUE, OBJECT_VALUE, STRING_VALUE,
       VALUE),
-    create_token_set_(DEFINITION, DIRECTIVE_DEFINITION, ENUM_TYPE_DEFINITION, INPUT_OBJECT_TYPE_DEFINITION,
-      INTERFACE_TYPE_DEFINITION, OBJECT_TYPE_DEFINITION, SCALAR_TYPE_DEFINITION, SCHEMA_DEFINITION,
-      TYPE_DEFINITION, TYPE_SYSTEM_DEFINITION, UNION_TYPE_DEFINITION),
+    create_token_set_(DEFINITION, DIRECTIVE_DEFINITION, ENUM_TYPE_DEFINITION, GENERIC_INPUT_OBJECT_TYPE_DEFINITION,
+      GENERIC_OBJECT_TYPE_DEFINITION, INPUT_OBJECT_TYPE_DEFINITION, INTERFACE_TYPE_DEFINITION, OBJECT_TYPE_DEFINITION,
+      SCALAR_TYPE_DEFINITION, SCHEMA_DEFINITION, TYPE_DEFINITION, TYPE_SYSTEM_DEFINITION,
+      UNION_TYPE_DEFINITION),
   };
 
   /* ********************************************************** */
@@ -800,6 +801,112 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // '<' identifier+ '>'
+  public static boolean generic(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "generic")) return false;
+    if (!nextTokenIs(builder, ANGLE_BRACKET_L)) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = consumeToken(builder, ANGLE_BRACKET_L);
+    result = result && generic_1(builder, level + 1);
+    result = result && consumeToken(builder, ANGLE_BRACKET_R);
+    exit_section_(builder, marker, GENERIC, result);
+    return result;
+  }
+
+  // identifier+
+  private static boolean generic_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "generic_1")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = identifier(builder, level + 1);
+    while (result) {
+      int pos = current_position_(builder);
+      if (!identifier(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "generic_1", pos)) break;
+    }
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  /* ********************************************************** */
+  // description? 'input' typeNameDefinition '=' identifier generic_call
+  public static boolean genericInputObjectTypeDefinition(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "genericInputObjectTypeDefinition")) return false;
+    boolean result, pinned;
+    Marker marker = enter_section_(builder, level, _NONE_, GENERIC_INPUT_OBJECT_TYPE_DEFINITION, "<generic input object type definition>");
+    result = genericInputObjectTypeDefinition_0(builder, level + 1);
+    result = result && consumeToken(builder, INPUT_KEYWORD);
+    result = result && typeNameDefinition(builder, level + 1);
+    result = result && consumeToken(builder, EQUALS);
+    pinned = result; // pin = 4
+    result = result && report_error_(builder, identifier(builder, level + 1));
+    result = pinned && generic_call(builder, level + 1) && result;
+    exit_section_(builder, level, marker, result, pinned, null);
+    return result || pinned;
+  }
+
+  // description?
+  private static boolean genericInputObjectTypeDefinition_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "genericInputObjectTypeDefinition_0")) return false;
+    description(builder, level + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // description? 'type' typeNameDefinition '=' identifier generic_call
+  public static boolean genericObjectTypeDefinition(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "genericObjectTypeDefinition")) return false;
+    boolean result, pinned;
+    Marker marker = enter_section_(builder, level, _NONE_, GENERIC_OBJECT_TYPE_DEFINITION, "<generic object type definition>");
+    result = genericObjectTypeDefinition_0(builder, level + 1);
+    result = result && consumeToken(builder, TYPE_KEYWORD);
+    result = result && typeNameDefinition(builder, level + 1);
+    result = result && consumeToken(builder, EQUALS);
+    pinned = result; // pin = 4
+    result = result && report_error_(builder, identifier(builder, level + 1));
+    result = pinned && generic_call(builder, level + 1) && result;
+    exit_section_(builder, level, marker, result, pinned, null);
+    return result || pinned;
+  }
+
+  // description?
+  private static boolean genericObjectTypeDefinition_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "genericObjectTypeDefinition_0")) return false;
+    description(builder, level + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // '<' type+ '>'
+  public static boolean generic_call(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "generic_call")) return false;
+    if (!nextTokenIs(builder, ANGLE_BRACKET_L)) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = consumeToken(builder, ANGLE_BRACKET_L);
+    result = result && generic_call_1(builder, level + 1);
+    result = result && consumeToken(builder, ANGLE_BRACKET_R);
+    exit_section_(builder, marker, GENERIC_CALL, result);
+    return result;
+  }
+
+  // type+
+  private static boolean generic_call_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "generic_call_1")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = type(builder, level + 1);
+    while (result) {
+      int pos = current_position_(builder);
+      if (!type(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "generic_call_1", pos)) break;
+    }
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  /* ********************************************************** */
   // NAME | 'query' | 'mutation' | 'subscription' | 'schema' | 'scalar' | 'type' |
   //   'interface' | 'implements' | 'enum' | 'union' | 'input' | 'directive' | 'on' | 'repeatable'
   public static boolean identifier(PsiBuilder builder, int level) {
@@ -865,7 +972,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // description? 'input' typeNameDefinition directives? inputObjectValueDefinitions?
+  // description? 'input' typeNameDefinition generic? directives? inputObjectValueDefinitions?
   public static boolean inputObjectTypeDefinition(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "inputObjectTypeDefinition")) return false;
     boolean result, pinned;
@@ -875,7 +982,8 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     pinned = result; // pin = 2
     result = result && report_error_(builder, typeNameDefinition(builder, level + 1));
     result = pinned && report_error_(builder, inputObjectTypeDefinition_3(builder, level + 1)) && result;
-    result = pinned && inputObjectTypeDefinition_4(builder, level + 1) && result;
+    result = pinned && report_error_(builder, inputObjectTypeDefinition_4(builder, level + 1)) && result;
+    result = pinned && inputObjectTypeDefinition_5(builder, level + 1) && result;
     exit_section_(builder, level, marker, result, pinned, null);
     return result || pinned;
   }
@@ -887,16 +995,23 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // directives?
+  // generic?
   private static boolean inputObjectTypeDefinition_3(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "inputObjectTypeDefinition_3")) return false;
+    generic(builder, level + 1);
+    return true;
+  }
+
+  // directives?
+  private static boolean inputObjectTypeDefinition_4(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "inputObjectTypeDefinition_4")) return false;
     directives(builder, level + 1);
     return true;
   }
 
   // inputObjectValueDefinitions?
-  private static boolean inputObjectTypeDefinition_4(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "inputObjectTypeDefinition_4")) return false;
+  private static boolean inputObjectTypeDefinition_5(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "inputObjectTypeDefinition_5")) return false;
     inputObjectValueDefinitions(builder, level + 1);
     return true;
   }
@@ -1151,7 +1266,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // description? 'type' typeNameDefinition implementsInterfaces? directives? fieldsDefinition?
+  // description? 'type' typeNameDefinition generic? implementsInterfaces? directives? fieldsDefinition?
   public static boolean objectTypeDefinition(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "objectTypeDefinition")) return false;
     boolean result, pinned;
@@ -1162,7 +1277,8 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     result = result && report_error_(builder, typeNameDefinition(builder, level + 1));
     result = pinned && report_error_(builder, objectTypeDefinition_3(builder, level + 1)) && result;
     result = pinned && report_error_(builder, objectTypeDefinition_4(builder, level + 1)) && result;
-    result = pinned && objectTypeDefinition_5(builder, level + 1) && result;
+    result = pinned && report_error_(builder, objectTypeDefinition_5(builder, level + 1)) && result;
+    result = pinned && objectTypeDefinition_6(builder, level + 1) && result;
     exit_section_(builder, level, marker, result, pinned, null);
     return result || pinned;
   }
@@ -1174,23 +1290,30 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // implementsInterfaces?
+  // generic?
   private static boolean objectTypeDefinition_3(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "objectTypeDefinition_3")) return false;
+    generic(builder, level + 1);
+    return true;
+  }
+
+  // implementsInterfaces?
+  private static boolean objectTypeDefinition_4(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "objectTypeDefinition_4")) return false;
     implementsInterfaces(builder, level + 1);
     return true;
   }
 
   // directives?
-  private static boolean objectTypeDefinition_4(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "objectTypeDefinition_4")) return false;
+  private static boolean objectTypeDefinition_5(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "objectTypeDefinition_5")) return false;
     directives(builder, level + 1);
     return true;
   }
 
   // fieldsDefinition?
-  private static boolean objectTypeDefinition_5(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "objectTypeDefinition_5")) return false;
+  private static boolean objectTypeDefinition_6(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "objectTypeDefinition_6")) return false;
     fieldsDefinition(builder, level + 1);
     return true;
   }
@@ -1570,20 +1693,24 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // scalarTypeDefinition |
+  //   genericObjectTypeDefinition |
   //   objectTypeDefinition |
   //   interfaceTypeDefinition |
   //   unionTypeDefinition |
   //   enumTypeDefinition |
+  //   genericInputObjectTypeDefinition |
   //   inputObjectTypeDefinition
   public static boolean typeDefinition(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "typeDefinition")) return false;
     boolean result;
     Marker marker = enter_section_(builder, level, _COLLAPSE_, TYPE_DEFINITION, "<type definition>");
     result = scalarTypeDefinition(builder, level + 1);
+    if (!result) result = genericObjectTypeDefinition(builder, level + 1);
     if (!result) result = objectTypeDefinition(builder, level + 1);
     if (!result) result = interfaceTypeDefinition(builder, level + 1);
     if (!result) result = unionTypeDefinition(builder, level + 1);
     if (!result) result = enumTypeDefinition(builder, level + 1);
+    if (!result) result = genericInputObjectTypeDefinition(builder, level + 1);
     if (!result) result = inputObjectTypeDefinition(builder, level + 1);
     exit_section_(builder, level, marker, result, false, null);
     return result;
