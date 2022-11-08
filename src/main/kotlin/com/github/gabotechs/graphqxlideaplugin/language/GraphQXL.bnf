@@ -242,7 +242,7 @@ generic ::= '<' identifier+ '>' {
 
 generic_call ::= '<' type+ '>'
 
-genericObjectTypeDefinition ::= description? 'type' typeNameDefinition '=' identifier generic_call {
+genericObjectTypeDefinition ::= description? 'type' typeNameDefinition directives? '=' identifier generic_call {
     pin=4
     extends=typeDefinition
 }
