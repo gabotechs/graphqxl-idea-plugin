@@ -312,7 +312,7 @@ inputObjectTypeDefinition ::= description? 'input' typeNameDefinition generic? d
   extends=typeDefinition
 }
 
-genericInputObjectTypeDefinition ::= description? 'input' typeNameDefinition '=' identifier generic_call {
+genericInputObjectTypeDefinition ::= description? 'input' typeNameDefinition directives? '=' identifier generic_call {
   pin=4
   extends=typeDefinition
 }

@@ -10,6 +10,9 @@ public interface GraphQXLGenericObjectTypeDefinition extends GraphQXLTypeDefinit
   @Nullable
   GraphQXLDescription getDescription();
 
+  @NotNull
+  List<GraphQXLDirective> getDirectiveList();
+
   @Nullable
   GraphQXLGenericCall getGenericCall();
 

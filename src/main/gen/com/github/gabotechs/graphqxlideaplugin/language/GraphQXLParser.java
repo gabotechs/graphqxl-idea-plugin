@@ -830,7 +830,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // description? 'input' typeNameDefinition '=' identifier generic_call
+  // description? 'input' typeNameDefinition directives? '=' identifier generic_call
   public static boolean genericInputObjectTypeDefinition(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "genericInputObjectTypeDefinition")) return false;
     boolean result, pinned;
@@ -838,9 +838,10 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     result = genericInputObjectTypeDefinition_0(builder, level + 1);
     result = result && consumeToken(builder, INPUT_KEYWORD);
     result = result && typeNameDefinition(builder, level + 1);
-    result = result && consumeToken(builder, EQUALS);
+    result = result && genericInputObjectTypeDefinition_3(builder, level + 1);
     pinned = result; // pin = 4
-    result = result && report_error_(builder, identifier(builder, level + 1));
+    result = result && report_error_(builder, consumeToken(builder, EQUALS));
+    result = pinned && report_error_(builder, identifier(builder, level + 1)) && result;
     result = pinned && generic_call(builder, level + 1) && result;
     exit_section_(builder, level, marker, result, pinned, null);
     return result || pinned;
@@ -853,8 +854,15 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     return true;
   }
 
+  // directives?
+  private static boolean genericInputObjectTypeDefinition_3(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "genericInputObjectTypeDefinition_3")) return false;
+    directives(builder, level + 1);
+    return true;
+  }
+
   /* ********************************************************** */
-  // description? 'type' typeNameDefinition '=' identifier generic_call
+  // description? 'type' typeNameDefinition directives? '=' identifier generic_call
   public static boolean genericObjectTypeDefinition(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "genericObjectTypeDefinition")) return false;
     boolean result, pinned;
@@ -862,9 +870,10 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     result = genericObjectTypeDefinition_0(builder, level + 1);
     result = result && consumeToken(builder, TYPE_KEYWORD);
     result = result && typeNameDefinition(builder, level + 1);
-    result = result && consumeToken(builder, EQUALS);
+    result = result && genericObjectTypeDefinition_3(builder, level + 1);
     pinned = result; // pin = 4
-    result = result && report_error_(builder, identifier(builder, level + 1));
+    result = result && report_error_(builder, consumeToken(builder, EQUALS));
+    result = pinned && report_error_(builder, identifier(builder, level + 1)) && result;
     result = pinned && generic_call(builder, level + 1) && result;
     exit_section_(builder, level, marker, result, pinned, null);
     return result || pinned;
@@ -874,6 +883,13 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   private static boolean genericObjectTypeDefinition_0(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "genericObjectTypeDefinition_0")) return false;
     description(builder, level + 1);
+    return true;
+  }
+
+  // directives?
+  private static boolean genericObjectTypeDefinition_3(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "genericObjectTypeDefinition_3")) return false;
+    directives(builder, level + 1);
     return true;
   }
 
