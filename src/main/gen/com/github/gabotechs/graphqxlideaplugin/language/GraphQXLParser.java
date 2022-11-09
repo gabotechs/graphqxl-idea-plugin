@@ -839,9 +839,9 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     result = result && consumeToken(builder, INPUT_KEYWORD);
     result = result && typeNameDefinition(builder, level + 1);
     result = result && genericInputObjectTypeDefinition_3(builder, level + 1);
-    pinned = result; // pin = 4
-    result = result && report_error_(builder, consumeToken(builder, EQUALS));
-    result = pinned && report_error_(builder, identifier(builder, level + 1)) && result;
+    result = result && consumeToken(builder, EQUALS);
+    pinned = result; // pin = 5
+    result = result && report_error_(builder, identifier(builder, level + 1));
     result = pinned && generic_call(builder, level + 1) && result;
     exit_section_(builder, level, marker, result, pinned, null);
     return result || pinned;
@@ -871,9 +871,9 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     result = result && consumeToken(builder, TYPE_KEYWORD);
     result = result && typeNameDefinition(builder, level + 1);
     result = result && genericObjectTypeDefinition_3(builder, level + 1);
-    pinned = result; // pin = 4
-    result = result && report_error_(builder, consumeToken(builder, EQUALS));
-    result = pinned && report_error_(builder, identifier(builder, level + 1)) && result;
+    result = result && consumeToken(builder, EQUALS);
+    pinned = result; // pin = 5
+    result = result && report_error_(builder, identifier(builder, level + 1));
     result = pinned && generic_call(builder, level + 1) && result;
     exit_section_(builder, level, marker, result, pinned, null);
     return result || pinned;
