@@ -42,6 +42,12 @@ intellij {
     plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
 }
 
+grammarKit {
+    jflexRelease.set("1.7.0-2")
+    grammarKitRelease.set("2021.1.2")
+    intellijRelease.set("203.7717.81")
+}
+
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
 changelog {
     version.set(properties("pluginVersion"))
@@ -90,12 +96,6 @@ tasks {
                 getOrNull(properties("pluginVersion")) ?: getLatest()
             }.toHTML()
         })
-    }
-
-    grammarKit {
-        jflexRelease.set("1.7.0-1")
-        grammarKitRelease.set("2021.1.2")
-        intellijRelease.set("203.7717.81")
     }
 
     // Configure UI tests plugin

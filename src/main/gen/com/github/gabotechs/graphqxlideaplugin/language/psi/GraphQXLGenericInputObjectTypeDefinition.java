@@ -10,6 +10,9 @@ public interface GraphQXLGenericInputObjectTypeDefinition extends GraphQXLTypeDe
   @Nullable
   GraphQXLDescription getDescription();
 
+  @Nullable
+  GraphQXLDescriptionVariables getDescriptionVariables();
+
   @NotNull
   List<GraphQXLDirective> getDirectiveList();
 

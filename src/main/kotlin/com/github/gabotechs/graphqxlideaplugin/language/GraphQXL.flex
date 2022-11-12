@@ -103,6 +103,7 @@ FLOAT = {INTEGER_PART} {FRACTIONAL_PART} | {INTEGER_PART} {EXPONENT_PART} | {INT
 
   // Punctuators
   "!"                { return BANG; }
+  "${"               { return DOLLAR_BRACE_L; }
   "$"                { pushState(VARIABLE_OR_TEMPLATE); return DOLLAR; }
   "("                { return PAREN_L; }
   ")"                { return PAREN_R; }

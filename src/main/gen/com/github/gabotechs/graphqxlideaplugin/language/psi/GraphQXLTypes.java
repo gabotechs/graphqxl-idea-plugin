@@ -18,6 +18,8 @@ public interface GraphQXLTypes {
   IElementType DEFAULT_VALUE = new GraphQXLElementType("DEFAULT_VALUE");
   IElementType DEFINITION = new GraphQXLElementType("DEFINITION");
   IElementType DESCRIPTION = new GraphQXLElementType("DESCRIPTION");
+  IElementType DESCRIPTION_VARIABLE = new GraphQXLElementType("DESCRIPTION_VARIABLE");
+  IElementType DESCRIPTION_VARIABLES = new GraphQXLElementType("DESCRIPTION_VARIABLES");
   IElementType DIRECTIVE = new GraphQXLElementType("DIRECTIVE");
   IElementType DIRECTIVE_DEFINITION = new GraphQXLElementType("DIRECTIVE_DEFINITION");
   IElementType DIRECTIVE_LOCATION = new GraphQXLElementType("DIRECTIVE_LOCATION");
@@ -88,6 +90,7 @@ public interface GraphQXLTypes {
   IElementType COLON = new GraphQXLTokenType(":");
   IElementType DIRECTIVE_KEYWORD = new GraphQXLTokenType("directive");
   IElementType DOLLAR = new GraphQXLTokenType("$");
+  IElementType DOLLAR_BRACE_L = new GraphQXLTokenType("DOLLAR_BRACE_L");
   IElementType ENUM_KEYWORD = new GraphQXLTokenType("enum");
   IElementType EOL_COMMENT = new GraphQXLTokenType("EOL_COMMENT");
   IElementType EQUALS = new GraphQXLTokenType("=");
@@ -150,6 +153,12 @@ public interface GraphQXLTypes {
       }
       else if (type == DESCRIPTION) {
         return new GraphQXLDescriptionImpl(node);
+      }
+      else if (type == DESCRIPTION_VARIABLE) {
+        return new GraphQXLDescriptionVariableImpl(node);
+      }
+      else if (type == DESCRIPTION_VARIABLES) {
+        return new GraphQXLDescriptionVariablesImpl(node);
       }
       else if (type == DIRECTIVE) {
         return new GraphQXLDirectiveImpl(node);

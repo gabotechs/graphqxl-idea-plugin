@@ -46,6 +46,14 @@ public class GraphQXLVisitorBase extends PsiElementVisitor {
     visitElement(o);
   }
 
+  public void visitDescriptionVariable(@NotNull GraphQXLDescriptionVariable o) {
+    visitElement(o);
+  }
+
+  public void visitDescriptionVariables(@NotNull GraphQXLDescriptionVariables o) {
+    visitElement(o);
+  }
+
   public void visitDirective(@NotNull GraphQXLDirective o) {
     visitNamedElement(o);
   }

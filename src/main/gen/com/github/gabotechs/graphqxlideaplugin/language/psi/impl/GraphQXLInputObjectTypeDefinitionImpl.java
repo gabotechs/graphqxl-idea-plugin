@@ -34,6 +34,12 @@ public class GraphQXLInputObjectTypeDefinitionImpl extends GraphQXLTypeDefinitio
   }
 
   @Override
+  @Nullable
+  public GraphQXLDescriptionVariables getDescriptionVariables() {
+    return findChildByClass(GraphQXLDescriptionVariables.class);
+  }
+
+  @Override
   @NotNull
   public List<GraphQXLDirective> getDirectiveList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, GraphQXLDirective.class);

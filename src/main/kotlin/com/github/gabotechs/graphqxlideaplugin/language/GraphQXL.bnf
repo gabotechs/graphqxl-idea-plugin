@@ -25,6 +25,7 @@
     // punctuation
     BANG="!"
     DOLLAR="$"
+    DOLLAR_BRACE_L="${"
     PAREN_L="("
     PAREN_R=")"
     SPREAD="..."
@@ -85,7 +86,7 @@ definition ::=
 private definition_recover ::= !(root_tokens | NAME) /* NAME since incomplete keywords show up as such */
 
 private root_tokens ::=
-  definition_keywords | '{' /* anon query */ | OPEN_QUOTE | OPEN_TRIPLE_QUOTE /* schema description */ | (DOLLAR BRACE_L) /* placeholder */
+  definition_keywords | DOLLAR_BRACE_L | '{' /* anon query */ | OPEN_QUOTE | OPEN_TRIPLE_QUOTE /* schema description */ | (DOLLAR BRACE_L) /* placeholder */
 
 private definition_keywords ::=
   'schema' | 'type' | 'interface' | 'input' | 'enum' | 'union' | 'scalar' | 'directive'
@@ -95,6 +96,14 @@ private definition_keywords ::=
 operationType ::= QUERY_KEYWORD | MUTATION_KEYWORD | SUBSCRIPTION_KEYWORD
 
 description ::= stringLiteral
+
+description_variables ::= DOLLAR_BRACE_L description_variable+ BRACE_R {
+    pin=1
+}
+description_variable ::= identifier ':' quotedString {
+  pin=1
+  methods=[nameIdentifier="identifier"]
+}
 
 enumValue ::= identifier {
   methods=[nameIdentifier="identifier"]
@@ -231,8 +240,8 @@ scalarTypeDefinition ::= description? 'scalar' typeNameDefinition directives? {
   extends=typeDefinition
 }
 
-objectTypeDefinition ::= description? 'type' typeNameDefinition generic? implementsInterfaces? directives? fieldsDefinition? {
-  pin=2
+objectTypeDefinition ::= description_variables? description? 'type' typeNameDefinition generic? implementsInterfaces? directives? fieldsDefinition? {
+  pin=3
   extends=typeDefinition
 }
 
@@ -242,8 +251,8 @@ generic ::= '<' identifier+ '>' {
 
 generic_call ::= '<' type+ '>'
 
-genericObjectTypeDefinition ::= description? 'type' typeNameDefinition directives? '=' modified_ref {
-    pin=5
+genericObjectTypeDefinition ::= description_variables? description? 'type' typeNameDefinition directives? '=' modified_ref {
+    pin=6
     extends=typeDefinition
 }
 
@@ -317,13 +326,13 @@ enumValueDefinition ::= description? enumValue directives? {
 
 private enumValueDefinition_recover ::= !('}' | enumValueDefinition | root_tokens)
 
-inputObjectTypeDefinition ::= description? 'input' typeNameDefinition generic? directives? inputObjectValueDefinitions? {
-  pin=2
+inputObjectTypeDefinition ::= description_variables?  description? 'input' typeNameDefinition generic? directives? inputObjectValueDefinitions? {
+  pin=3
   extends=typeDefinition
 }
 
-genericInputObjectTypeDefinition ::= description? 'input' typeNameDefinition directives? '=' modified_ref {
-  pin=5
+genericInputObjectTypeDefinition ::= description_variables?  description? 'input' typeNameDefinition directives? '=' modified_ref {
+  pin=6
   extends=typeDefinition
 }
 
