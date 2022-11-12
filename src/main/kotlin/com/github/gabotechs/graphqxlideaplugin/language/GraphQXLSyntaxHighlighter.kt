@@ -43,6 +43,10 @@ class GraphQXLSyntaxHighlighter : SyntaxHighlighterBase() {
             AMP_KEYS
         } else if (tokenType == TokenType.BAD_CHARACTER) {
             BAD_CHARACTER_KEYS
+        } else if (tokenType == GraphQXLTypes.OPTIONAL_MODIFIER) {
+            MODIFIER_KEYS
+        } else if (tokenType == GraphQXLTypes.REQUIRED_MODIFIER) {
+            MODIFIER_KEYS
         } else {
             EMPTY_KEYS
         }
@@ -52,6 +56,10 @@ class GraphQXLSyntaxHighlighter : SyntaxHighlighterBase() {
         val IDENTIFIER = TextAttributesKey.createTextAttributesKey(
             "GraphQXL_IDENTIFIER",
             DefaultLanguageHighlighterColors.IDENTIFIER
+        )
+        val MODIFIER = TextAttributesKey.createTextAttributesKey(
+            "GraphQXL_MODIFIER",
+            DefaultLanguageHighlighterColors.KEYWORD
         )
         val KEYWORD = TextAttributesKey.createTextAttributesKey(
             "GraphQXL_KEYWORD",
@@ -106,6 +114,7 @@ class GraphQXLSyntaxHighlighter : SyntaxHighlighterBase() {
             HighlighterColors.BAD_CHARACTER
         )
         private val IDENTIFIER_KEYS = arrayOf(IDENTIFIER)
+        private val MODIFIER_KEYS = arrayOf(MODIFIER)
         private val KEYWORD_KEYS = arrayOf(KEYWORD)
         private val NUMBER_KEYS = arrayOf(NUMBER)
         private val STRING_KEYS = arrayOf(STRING)

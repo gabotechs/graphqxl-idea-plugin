@@ -49,9 +49,21 @@ class GraphQXLSyntaxAnnotator : Annotator {
             "GRAPHQXL_DIRECTIVE",
             DefaultLanguageHighlighterColors.METADATA
         )
+        val MODIFIER = TextAttributesKey.createTextAttributesKey(
+            "GRAPHQXL_MODIFIER",
+            DefaultLanguageHighlighterColors.STATIC_METHOD
+        )
 
         class GraphQXLSyntaxAnnotatorVisitor(private val myHolder: AnnotationHolder) :
             GraphQXLVisitorBase() {
+
+            override fun visitOptionalModifier(o: GraphQXLOptionalModifier) {
+                applyTextAttributes(o.originalElement, MODIFIER)
+            }
+
+            override fun visitRequiredModifier(o: GraphQXLRequiredModifier) {
+                applyTextAttributes(o.originalElement, MODIFIER)
+            }
 
             override fun visitOperationType(operationType: GraphQXLOperationType) {
                 val parent: PsiElement = operationType.parent

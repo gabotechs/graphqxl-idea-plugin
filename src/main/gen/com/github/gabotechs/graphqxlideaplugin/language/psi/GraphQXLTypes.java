@@ -26,6 +26,7 @@ public interface GraphQXLTypes {
   IElementType ENUM_VALUE = new GraphQXLElementType("ENUM_VALUE");
   IElementType ENUM_VALUE_DEFINITION = new GraphQXLElementType("ENUM_VALUE_DEFINITION");
   IElementType ENUM_VALUE_DEFINITIONS = new GraphQXLElementType("ENUM_VALUE_DEFINITIONS");
+  IElementType EXPANDABLE_REF = new GraphQXLElementType("EXPANDABLE_REF");
   IElementType FIELD = new GraphQXLElementType("FIELD");
   IElementType FIELDS_DEFINITION = new GraphQXLElementType("FIELDS_DEFINITION");
   IElementType FIELD_DEFINITION = new GraphQXLElementType("FIELD_DEFINITION");
@@ -43,6 +44,7 @@ public interface GraphQXLTypes {
   IElementType INTERFACE_TYPE_DEFINITION = new GraphQXLElementType("INTERFACE_TYPE_DEFINITION");
   IElementType INT_VALUE = new GraphQXLElementType("INT_VALUE");
   IElementType LIST_TYPE = new GraphQXLElementType("LIST_TYPE");
+  IElementType MODIFIED_REF = new GraphQXLElementType("MODIFIED_REF");
   IElementType NON_NULL_TYPE = new GraphQXLElementType("NON_NULL_TYPE");
   IElementType NULL_VALUE = new GraphQXLElementType("NULL_VALUE");
   IElementType OBJECT_FIELD = new GraphQXLElementType("OBJECT_FIELD");
@@ -51,7 +53,9 @@ public interface GraphQXLTypes {
   IElementType OPERATION_TYPE = new GraphQXLElementType("OPERATION_TYPE");
   IElementType OPERATION_TYPE_DEFINITION = new GraphQXLElementType("OPERATION_TYPE_DEFINITION");
   IElementType OPERATION_TYPE_DEFINITIONS = new GraphQXLElementType("OPERATION_TYPE_DEFINITIONS");
+  IElementType OPTIONAL_MODIFIER = new GraphQXLElementType("OPTIONAL_MODIFIER");
   IElementType QUOTED_STRING = new GraphQXLElementType("QUOTED_STRING");
+  IElementType REQUIRED_MODIFIER = new GraphQXLElementType("REQUIRED_MODIFIER");
   IElementType SCALAR_TYPE_DEFINITION = new GraphQXLElementType("SCALAR_TYPE_DEFINITION");
   IElementType SCHEMA_DEFINITION = new GraphQXLElementType("SCHEMA_DEFINITION");
   IElementType SELECTION = new GraphQXLElementType("SELECTION");
@@ -171,6 +175,9 @@ public interface GraphQXLTypes {
       else if (type == ENUM_VALUE_DEFINITIONS) {
         return new GraphQXLEnumValueDefinitionsImpl(node);
       }
+      else if (type == EXPANDABLE_REF) {
+        return new GraphQXLExpandableRefImpl(node);
+      }
       else if (type == FIELD) {
         return new GraphQXLFieldImpl(node);
       }
@@ -222,6 +229,9 @@ public interface GraphQXLTypes {
       else if (type == LIST_TYPE) {
         return new GraphQXLListTypeImpl(node);
       }
+      else if (type == MODIFIED_REF) {
+        return new GraphQXLModifiedRefImpl(node);
+      }
       else if (type == NON_NULL_TYPE) {
         return new GraphQXLNonNullTypeImpl(node);
       }
@@ -246,8 +256,14 @@ public interface GraphQXLTypes {
       else if (type == OPERATION_TYPE_DEFINITIONS) {
         return new GraphQXLOperationTypeDefinitionsImpl(node);
       }
+      else if (type == OPTIONAL_MODIFIER) {
+        return new GraphQXLOptionalModifierImpl(node);
+      }
       else if (type == QUOTED_STRING) {
         return new GraphQXLQuotedStringImpl(node);
+      }
+      else if (type == REQUIRED_MODIFIER) {
+        return new GraphQXLRequiredModifierImpl(node);
       }
       else if (type == SCALAR_TYPE_DEFINITION) {
         return new GraphQXLScalarTypeDefinitionImpl(node);

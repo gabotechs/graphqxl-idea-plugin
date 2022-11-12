@@ -5,18 +5,18 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GraphQXLGenericInputObjectTypeDefinition extends GraphQXLTypeDefinition {
+public interface GraphQXLModifiedRef extends GraphQXLElement {
 
   @Nullable
-  GraphQXLDescription getDescription();
-
-  @NotNull
-  List<GraphQXLDirective> getDirectiveList();
+  GraphQXLExpandableRef getExpandableRef();
 
   @Nullable
   GraphQXLModifiedRef getModifiedRef();
 
-  @NotNull
-  GraphQXLTypeNameDefinition getTypeNameDefinition();
+  @Nullable
+  GraphQXLOptionalModifier getOptionalModifier();
+
+  @Nullable
+  GraphQXLRequiredModifier getRequiredModifier();
 
 }

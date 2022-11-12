@@ -647,6 +647,26 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // identifier generic_call?
+  public static boolean expandable_ref(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "expandable_ref")) return false;
+    boolean result, pinned;
+    Marker marker = enter_section_(builder, level, _NONE_, EXPANDABLE_REF, "<expandable ref>");
+    result = identifier(builder, level + 1);
+    pinned = result; // pin = 1
+    result = result && expandable_ref_1(builder, level + 1);
+    exit_section_(builder, level, marker, result, pinned, null);
+    return result || pinned;
+  }
+
+  // generic_call?
+  private static boolean expandable_ref_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "expandable_ref_1")) return false;
+    generic_call(builder, level + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
   // alias? identifier arguments? directives? selectionSet?
   public static boolean field(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "field")) return false;
@@ -830,7 +850,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // description? 'input' typeNameDefinition directives? '=' identifier generic_call
+  // description? 'input' typeNameDefinition directives? '=' modified_ref
   public static boolean genericInputObjectTypeDefinition(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "genericInputObjectTypeDefinition")) return false;
     boolean result, pinned;
@@ -841,8 +861,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     result = result && genericInputObjectTypeDefinition_3(builder, level + 1);
     result = result && consumeToken(builder, EQUALS);
     pinned = result; // pin = 5
-    result = result && report_error_(builder, identifier(builder, level + 1));
-    result = pinned && generic_call(builder, level + 1) && result;
+    result = result && modified_ref(builder, level + 1);
     exit_section_(builder, level, marker, result, pinned, null);
     return result || pinned;
   }
@@ -862,7 +881,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // description? 'type' typeNameDefinition directives? '=' identifier generic_call
+  // description? 'type' typeNameDefinition directives? '=' modified_ref
   public static boolean genericObjectTypeDefinition(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "genericObjectTypeDefinition")) return false;
     boolean result, pinned;
@@ -873,8 +892,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     result = result && genericObjectTypeDefinition_3(builder, level + 1);
     result = result && consumeToken(builder, EQUALS);
     pinned = result; // pin = 5
-    result = result && report_error_(builder, identifier(builder, level + 1));
-    result = pinned && generic_call(builder, level + 1) && result;
+    result = result && modified_ref(builder, level + 1);
     exit_section_(builder, level, marker, result, pinned, null);
     return result || pinned;
   }
@@ -1203,6 +1221,47 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // (required_modifier '<' modified_ref '>') |
+  //     (optional_modifier '<' modified_ref '>') |
+  //     expandable_ref
+  public static boolean modified_ref(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "modified_ref")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder, level, _NONE_, MODIFIED_REF, "<modified ref>");
+    result = modified_ref_0(builder, level + 1);
+    if (!result) result = modified_ref_1(builder, level + 1);
+    if (!result) result = expandable_ref(builder, level + 1);
+    exit_section_(builder, level, marker, result, false, null);
+    return result;
+  }
+
+  // required_modifier '<' modified_ref '>'
+  private static boolean modified_ref_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "modified_ref_0")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = required_modifier(builder, level + 1);
+    result = result && consumeToken(builder, ANGLE_BRACKET_L);
+    result = result && modified_ref(builder, level + 1);
+    result = result && consumeToken(builder, ANGLE_BRACKET_R);
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  // optional_modifier '<' modified_ref '>'
+  private static boolean modified_ref_1(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "modified_ref_1")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = optional_modifier(builder, level + 1);
+    result = result && consumeToken(builder, ANGLE_BRACKET_L);
+    result = result && modified_ref(builder, level + 1);
+    result = result && consumeToken(builder, ANGLE_BRACKET_R);
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  /* ********************************************************** */
   // typeName BANG | listType BANG
   public static boolean nonNullType(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "nonNullType")) return false;
@@ -1450,6 +1509,17 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // 'Optional'
+  public static boolean optional_modifier(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "optional_modifier")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder, level, _NONE_, OPTIONAL_MODIFIER, "<optional modifier>");
+    result = consumeToken(builder, "Optional");
+    exit_section_(builder, level, marker, result, false, null);
+    return result;
+  }
+
+  /* ********************************************************** */
   // '|' directiveLocation
   static boolean pipeDirectiveLocation(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "pipeDirectiveLocation")) return false;
@@ -1496,6 +1566,17 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(builder, level, "quotedString_1")) return false;
     consumeToken(builder, REGULAR_STRING_PART);
     return true;
+  }
+
+  /* ********************************************************** */
+  // 'Required'
+  public static boolean required_modifier(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "required_modifier")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder, level, _NONE_, REQUIRED_MODIFIER, "<required modifier>");
+    result = consumeToken(builder, "Required");
+    exit_section_(builder, level, marker, result, false, null);
+    return result;
   }
 
   /* ********************************************************** */
@@ -1646,15 +1727,16 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // '...' identifier
+  // '...' modified_ref
   public static boolean spreadFieldDefinition(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "spreadFieldDefinition")) return false;
-    boolean result;
+    boolean result, pinned;
     Marker marker = enter_section_(builder, level, _NONE_, SPREAD_FIELD_DEFINITION, "<spread field definition>");
     result = consumeToken(builder, SPREAD);
-    result = result && identifier(builder, level + 1);
-    exit_section_(builder, level, marker, result, false, GraphQXLParser::fieldDefinition_recover);
-    return result;
+    pinned = result; // pin = 1
+    result = result && modified_ref(builder, level + 1);
+    exit_section_(builder, level, marker, result, pinned, GraphQXLParser::fieldDefinition_recover);
+    return result || pinned;
   }
 
   /* ********************************************************** */

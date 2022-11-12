@@ -15,8 +15,8 @@
   elementTypeClass="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLElementType"
   tokenTypeClass="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLTokenType"
 
-  implements("argument|directive|enumValue|field|fieldDefinition|spreadFieldDefinition|inputValueDefinition|spreadInputDefinition|objectField|typeName|typeNameDefinition")="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLNamedElement"
-  mixin(     "argument|directive|enumValue|field|fieldDefinition|spreadFieldDefinition|inputValueDefinition|spreadInputDefinition|objectField|typeName|typeNameDefinition")="com.github.gabotechs.graphqxlideaplugin.language.psi.impl.GraphQXLNamedElementImpl"
+  implements("argument|directive|enumValue|field|fieldDefinition|inputValueDefinition|objectField|typeName|typeNameDefinition")="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLNamedElement"
+  mixin(     "argument|directive|enumValue|field|fieldDefinition|inputValueDefinition|objectField|typeName|typeNameDefinition")="com.github.gabotechs.graphqxlideaplugin.language.psi.impl.GraphQXLNamedElementImpl"
 
   implements("typeDefinition|(field|inputValue|enumValue|directive|schema)Definition")="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLDescriptionAware"
 
@@ -242,7 +242,7 @@ generic ::= '<' identifier+ '>' {
 
 generic_call ::= '<' type+ '>'
 
-genericObjectTypeDefinition ::= description? 'type' typeNameDefinition directives? '=' identifier generic_call {
+genericObjectTypeDefinition ::= description? 'type' typeNameDefinition directives? '=' modified_ref {
     pin=5
     extends=typeDefinition
 }
@@ -251,11 +251,21 @@ implementsInterfaces ::= 'implements' ampTypeName ampTypeName* {pin=1}
 
 private ampTypeName ::= '&'? typeName
 
+required_modifier ::= 'Required'
+optional_modifier ::= 'Optional'
+
+expandable_ref ::= identifier generic_call? {
+    pin=1
+}
+modified_ref ::=
+    (required_modifier '<' modified_ref '>') |
+    (optional_modifier '<' modified_ref '>') |
+    expandable_ref
+
 fieldsDefinition ::= '{' (fieldDefinition | spreadFieldDefinition)* '}' {pin=1}
 
-spreadFieldDefinition ::= '...' identifier {
-  pin=2
-  methods=[nameIdentifier="identifier"]
+spreadFieldDefinition ::= '...' modified_ref {
+  pin=1
   recoverWhile=fieldDefinition_recover
 }
 
@@ -312,7 +322,7 @@ inputObjectTypeDefinition ::= description? 'input' typeNameDefinition generic? d
   extends=typeDefinition
 }
 
-genericInputObjectTypeDefinition ::= description? 'input' typeNameDefinition directives? '=' identifier generic_call {
+genericInputObjectTypeDefinition ::= description? 'input' typeNameDefinition directives? '=' modified_ref {
   pin=5
   extends=typeDefinition
 }

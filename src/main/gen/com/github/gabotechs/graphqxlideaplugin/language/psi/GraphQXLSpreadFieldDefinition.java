@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GraphQXLSpreadFieldDefinition extends GraphQXLNamedElement {
+public interface GraphQXLSpreadFieldDefinition extends GraphQXLElement {
 
-  @NotNull
-  GraphQXLIdentifier getNameIdentifier();
+  @Nullable
+  GraphQXLModifiedRef getModifiedRef();
 
 }

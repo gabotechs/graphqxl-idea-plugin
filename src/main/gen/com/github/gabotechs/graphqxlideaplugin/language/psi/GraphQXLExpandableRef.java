@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GraphQXLSpreadInputDefinition extends GraphQXLElement {
+public interface GraphQXLExpandableRef extends GraphQXLElement {
+
+  @Nullable
+  GraphQXLGenericCall getGenericCall();
 
   @NotNull
-  GraphQXLIdentifier getNameIdentifier();
+  GraphQXLIdentifier getIdentifier();
 
 }

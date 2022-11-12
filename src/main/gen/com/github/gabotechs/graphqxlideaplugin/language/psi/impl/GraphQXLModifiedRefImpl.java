@@ -10,14 +10,14 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLTypes.*;
 import com.github.gabotechs.graphqxlideaplugin.language.psi.*;
 
-public class GraphQXLSpreadInputDefinitionImpl extends GraphQXLElementImpl implements GraphQXLSpreadInputDefinition {
+public class GraphQXLModifiedRefImpl extends GraphQXLElementImpl implements GraphQXLModifiedRef {
 
-  public GraphQXLSpreadInputDefinitionImpl(@NotNull ASTNode node) {
+  public GraphQXLModifiedRefImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GraphQXLVisitorBase visitor) {
-    visitor.visitSpreadInputDefinition(this);
+    visitor.visitModifiedRef(this);
   }
 
   @Override
@@ -27,9 +27,27 @@ public class GraphQXLSpreadInputDefinitionImpl extends GraphQXLElementImpl imple
   }
 
   @Override
-  @NotNull
-  public GraphQXLIdentifier getNameIdentifier() {
-    return findNotNullChildByClass(GraphQXLIdentifier.class);
+  @Nullable
+  public GraphQXLExpandableRef getExpandableRef() {
+    return findChildByClass(GraphQXLExpandableRef.class);
+  }
+
+  @Override
+  @Nullable
+  public GraphQXLModifiedRef getModifiedRef() {
+    return findChildByClass(GraphQXLModifiedRef.class);
+  }
+
+  @Override
+  @Nullable
+  public GraphQXLOptionalModifier getOptionalModifier() {
+    return findChildByClass(GraphQXLOptionalModifier.class);
+  }
+
+  @Override
+  @Nullable
+  public GraphQXLRequiredModifier getRequiredModifier() {
+    return findChildByClass(GraphQXLRequiredModifier.class);
   }
 
 }

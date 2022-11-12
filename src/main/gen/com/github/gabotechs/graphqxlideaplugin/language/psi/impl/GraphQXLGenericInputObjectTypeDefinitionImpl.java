@@ -41,14 +41,8 @@ public class GraphQXLGenericInputObjectTypeDefinitionImpl extends GraphQXLTypeDe
 
   @Override
   @Nullable
-  public GraphQXLGenericCall getGenericCall() {
-    return findChildByClass(GraphQXLGenericCall.class);
-  }
-
-  @Override
-  @Nullable
-  public GraphQXLIdentifier getIdentifier() {
-    return findChildByClass(GraphQXLIdentifier.class);
+  public GraphQXLModifiedRef getModifiedRef() {
+    return findChildByClass(GraphQXLModifiedRef.class);
   }
 
   @Override

@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLTypes.*;
 import com.github.gabotechs.graphqxlideaplugin.language.psi.*;
 
-public class GraphQXLSpreadFieldDefinitionImpl extends GraphQXLNamedElementImpl implements GraphQXLSpreadFieldDefinition {
+public class GraphQXLSpreadFieldDefinitionImpl extends GraphQXLElementImpl implements GraphQXLSpreadFieldDefinition {
 
   public GraphQXLSpreadFieldDefinitionImpl(@NotNull ASTNode node) {
     super(node);
@@ -27,9 +27,9 @@ public class GraphQXLSpreadFieldDefinitionImpl extends GraphQXLNamedElementImpl 
   }
 
   @Override
-  @NotNull
-  public GraphQXLIdentifier getNameIdentifier() {
-    return findNotNullChildByClass(GraphQXLIdentifier.class);
+  @Nullable
+  public GraphQXLModifiedRef getModifiedRef() {
+    return findChildByClass(GraphQXLModifiedRef.class);
   }
 
 }

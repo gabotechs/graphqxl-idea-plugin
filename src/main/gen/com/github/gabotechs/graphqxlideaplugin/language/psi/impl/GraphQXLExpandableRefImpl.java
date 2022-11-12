@@ -10,14 +10,14 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLTypes.*;
 import com.github.gabotechs.graphqxlideaplugin.language.psi.*;
 
-public class GraphQXLSpreadInputDefinitionImpl extends GraphQXLElementImpl implements GraphQXLSpreadInputDefinition {
+public class GraphQXLExpandableRefImpl extends GraphQXLElementImpl implements GraphQXLExpandableRef {
 
-  public GraphQXLSpreadInputDefinitionImpl(@NotNull ASTNode node) {
+  public GraphQXLExpandableRefImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GraphQXLVisitorBase visitor) {
-    visitor.visitSpreadInputDefinition(this);
+    visitor.visitExpandableRef(this);
   }
 
   @Override
@@ -27,8 +27,14 @@ public class GraphQXLSpreadInputDefinitionImpl extends GraphQXLElementImpl imple
   }
 
   @Override
+  @Nullable
+  public GraphQXLGenericCall getGenericCall() {
+    return findChildByClass(GraphQXLGenericCall.class);
+  }
+
+  @Override
   @NotNull
-  public GraphQXLIdentifier getNameIdentifier() {
+  public GraphQXLIdentifier getIdentifier() {
     return findNotNullChildByClass(GraphQXLIdentifier.class);
   }
 

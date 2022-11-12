@@ -80,6 +80,10 @@ public class GraphQXLVisitorBase extends PsiElementVisitor {
     visitElement(o);
   }
 
+  public void visitExpandableRef(@NotNull GraphQXLExpandableRef o) {
+    visitElement(o);
+  }
+
   public void visitField(@NotNull GraphQXLField o) {
     visitNamedElement(o);
   }
@@ -150,6 +154,10 @@ public class GraphQXLVisitorBase extends PsiElementVisitor {
     visitType(o);
   }
 
+  public void visitModifiedRef(@NotNull GraphQXLModifiedRef o) {
+    visitElement(o);
+  }
+
   public void visitNonNullType(@NotNull GraphQXLNonNullType o) {
     visitType(o);
   }
@@ -182,8 +190,16 @@ public class GraphQXLVisitorBase extends PsiElementVisitor {
     visitElement(o);
   }
 
+  public void visitOptionalModifier(@NotNull GraphQXLOptionalModifier o) {
+    visitElement(o);
+  }
+
   public void visitQuotedString(@NotNull GraphQXLQuotedString o) {
     visitStringLiteral(o);
+  }
+
+  public void visitRequiredModifier(@NotNull GraphQXLRequiredModifier o) {
+    visitElement(o);
   }
 
   public void visitScalarTypeDefinition(@NotNull GraphQXLScalarTypeDefinition o) {
@@ -204,11 +220,11 @@ public class GraphQXLVisitorBase extends PsiElementVisitor {
   }
 
   public void visitSpreadFieldDefinition(@NotNull GraphQXLSpreadFieldDefinition o) {
-    visitNamedElement(o);
+    visitElement(o);
   }
 
   public void visitSpreadInputDefinition(@NotNull GraphQXLSpreadInputDefinition o) {
-    visitNamedElement(o);
+    visitElement(o);
   }
 
   public void visitStringLiteral(@NotNull GraphQXLStringLiteral o) {
