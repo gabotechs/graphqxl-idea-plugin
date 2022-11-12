@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface GraphQXLSpreadInputDefinition extends GraphQXLElement {
 
-  @NotNull
-  GraphQXLIdentifier getNameIdentifier();
+  @Nullable
+  GraphQXLModifiedRef getModifiedRef();
 
 }

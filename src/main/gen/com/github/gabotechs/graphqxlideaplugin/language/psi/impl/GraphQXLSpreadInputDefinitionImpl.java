@@ -27,9 +27,9 @@ public class GraphQXLSpreadInputDefinitionImpl extends GraphQXLElementImpl imple
   }
 
   @Override
-  @NotNull
-  public GraphQXLIdentifier getNameIdentifier() {
-    return findNotNullChildByClass(GraphQXLIdentifier.class);
+  @Nullable
+  public GraphQXLModifiedRef getModifiedRef() {
+    return findChildByClass(GraphQXLModifiedRef.class);
   }
 
 }

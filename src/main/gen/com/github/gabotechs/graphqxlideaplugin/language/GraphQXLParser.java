@@ -1817,15 +1817,16 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // '...' identifier
+  // '...' modified_ref
   public static boolean spreadInputDefinition(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "spreadInputDefinition")) return false;
-    boolean result;
+    boolean result, pinned;
     Marker marker = enter_section_(builder, level, _NONE_, SPREAD_INPUT_DEFINITION, "<spread input definition>");
     result = consumeToken(builder, SPREAD);
-    result = result && identifier(builder, level + 1);
-    exit_section_(builder, level, marker, result, false, GraphQXLParser::inputValueDefinition_recover);
-    return result;
+    pinned = result; // pin = 1
+    result = result && modified_ref(builder, level + 1);
+    exit_section_(builder, level, marker, result, pinned, GraphQXLParser::inputValueDefinition_recover);
+    return result || pinned;
   }
 
   /* ********************************************************** */

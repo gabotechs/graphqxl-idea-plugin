@@ -338,9 +338,8 @@ genericInputObjectTypeDefinition ::= description_variables?  description? 'input
 
 inputObjectValueDefinitions ::= '{' (inputValueDefinition | spreadInputDefinition)* '}' {pin=1}
 
-spreadInputDefinition ::= '...' identifier {
-  pin=2
-  methods=[nameIdentifier="identifier"]
+spreadInputDefinition ::= '...' modified_ref {
+  pin=1
   recoverWhile=inputValueDefinition_recover
 }
 
