@@ -8,7 +8,14 @@
         <![CDATA[
       <p>GraphQXL language.</p>
       <br/>
-      <p>Syntax highlighting, code-formatting and code assistance for the GraphQXL language</p>
+      <p>
+        GraphQXl is language built on top of GraphQL that extends the original language
+        features in order to make defining server side schemas more scalable.
+      </p>
+      <p>
+        This plugin provides basic syntax highlighting and syntax error annotations to
+        .graphqxl files and graphqxl blocks in documentation.
+      </p>
     ]]>
     </description>
 
