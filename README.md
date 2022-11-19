@@ -1,10 +1,10 @@
 # graphqxl-idea-plugin
 
 ![Build](https://github.com/gabotechs/graphqxl-idea-plugin/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
+[![Version](https://img.shields.io/jetbrains/plugin/v/19895.svg)](https://plugins.jetbrains.com/plugin/19895-graphqxl)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/19895.svg)](https://plugins.jetbrains.com/plugin/19895-graphqxl)
 
-## Template ToDo list
+## TODO list
 
 - [x] Syntax Highlighting for basic GraphQL
 - [x] Syntax Highlighting for object inheritance
@@ -13,9 +13,19 @@
 - [ ] Error annotation
 - [ ] Code autocompletion
 
+## Description
+
 <!-- Plugin description -->
 
-GraphQXL Language support
+<p>GraphQXL language Support</p>
+<p>
+  GraphQXL is language built on top of GraphQL that extends the original language
+  features in order to make defining server side schemas more scalable.
+</p>
+<p>
+  This plugin provides basic syntax highlighting and syntax error annotations to
+  .graphqxl files and graphqxl blocks in documentation.
+</p>
 
 <!-- Plugin description end -->
 

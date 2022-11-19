@@ -4,21 +4,6 @@
     <name>Graphqxl</name>
     <vendor>Gabriel Musat Mestre - gabimtme@gmail.com</vendor>
 
-    <description>
-        <![CDATA[
-      <p>GraphQXL language.</p>
-      <br/>
-      <p>
-        GraphQXl is language built on top of GraphQL that extends the original language
-        features in order to make defining server side schemas more scalable.
-      </p>
-      <p>
-        This plugin provides basic syntax highlighting and syntax error annotations to
-        .graphqxl files and graphqxl blocks in documentation.
-      </p>
-    ]]>
-    </description>
-
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
