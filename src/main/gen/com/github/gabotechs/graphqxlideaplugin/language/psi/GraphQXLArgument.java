@@ -5,10 +5,19 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GraphQXLArgument extends GraphQXLNamedElement {
+public interface GraphQXLArgument extends GraphQXLElement {
 
   @Nullable
-  GraphQXLValue getValue();
+  GraphQXLDescription getDescription();
+
+  @NotNull
+  List<GraphQXLDirective> getDirectiveList();
+
+  @Nullable
+  GraphQXLValueData getValueData();
+
+  @NotNull
+  GraphQXLValueType getValueType();
 
   @NotNull
   GraphQXLIdentifier getNameIdentifier();

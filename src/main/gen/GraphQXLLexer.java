@@ -839,7 +839,7 @@ public class GraphQXLLexer implements FlexLexer {
             // fall through
           case 84: break;
           case 34: 
-            { return FLOAT;
+            { return FLOAT_NUMBER;
             } 
             // fall through
           case 85: break;

@@ -1,8 +1,8 @@
 package com.github.gabotechs.graphqxlideaplugin.language
 
-import com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLTypeDefinition
-import com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLTypeNameDefinition
+import com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLDef
+import com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLIdentifier
 
-interface GraphQXLNamedTypeDefinition : GraphQXLTypeDefinition {
-    val typeNameDefinition: GraphQXLTypeNameDefinition?
+interface GraphQXLNamedTypeDefinition : GraphQXLDef {
+    val identifier: GraphQXLIdentifier?
 }

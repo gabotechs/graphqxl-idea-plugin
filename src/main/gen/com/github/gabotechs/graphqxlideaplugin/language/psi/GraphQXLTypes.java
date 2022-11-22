@@ -8,73 +8,71 @@ import com.github.gabotechs.graphqxlideaplugin.language.psi.impl.*;
 
 public interface GraphQXLTypes {
 
-  IElementType ALIAS = new GraphQXLElementType("ALIAS");
   IElementType ARGUMENT = new GraphQXLElementType("ARGUMENT");
   IElementType ARGUMENTS = new GraphQXLElementType("ARGUMENTS");
-  IElementType ARGUMENTS_DEFINITION = new GraphQXLElementType("ARGUMENTS_DEFINITION");
-  IElementType ARRAY_VALUE = new GraphQXLElementType("ARRAY_VALUE");
-  IElementType BLOCK_STRING = new GraphQXLElementType("BLOCK_STRING");
-  IElementType BOOLEAN_VALUE = new GraphQXLElementType("BOOLEAN_VALUE");
-  IElementType DEFAULT_VALUE = new GraphQXLElementType("DEFAULT_VALUE");
-  IElementType DEFINITION = new GraphQXLElementType("DEFINITION");
+  IElementType BASIC_DATA = new GraphQXLElementType("BASIC_DATA");
+  IElementType BASIC_TYPE = new GraphQXLElementType("BASIC_TYPE");
+  IElementType BOOLEAN = new GraphQXLElementType("BOOLEAN");
+  IElementType BOOLEAN_DATA = new GraphQXLElementType("BOOLEAN_DATA");
+  IElementType CHAR_NO_DOUBLE_QUOTE = new GraphQXLElementType("CHAR_NO_DOUBLE_QUOTE");
+  IElementType DEF = new GraphQXLElementType("DEF");
   IElementType DESCRIPTION = new GraphQXLElementType("DESCRIPTION");
   IElementType DESCRIPTION_VARIABLE = new GraphQXLElementType("DESCRIPTION_VARIABLE");
   IElementType DESCRIPTION_VARIABLES = new GraphQXLElementType("DESCRIPTION_VARIABLES");
   IElementType DIRECTIVE = new GraphQXLElementType("DIRECTIVE");
-  IElementType DIRECTIVE_DEFINITION = new GraphQXLElementType("DIRECTIVE_DEFINITION");
+  IElementType DIRECTIVE_DEF = new GraphQXLElementType("DIRECTIVE_DEF");
   IElementType DIRECTIVE_LOCATION = new GraphQXLElementType("DIRECTIVE_LOCATION");
-  IElementType DIRECTIVE_LOCATIONS = new GraphQXLElementType("DIRECTIVE_LOCATIONS");
-  IElementType ENUM_TYPE_DEFINITION = new GraphQXLElementType("ENUM_TYPE_DEFINITION");
-  IElementType ENUM_VALUE = new GraphQXLElementType("ENUM_VALUE");
-  IElementType ENUM_VALUE_DEFINITION = new GraphQXLElementType("ENUM_VALUE_DEFINITION");
-  IElementType ENUM_VALUE_DEFINITIONS = new GraphQXLElementType("ENUM_VALUE_DEFINITIONS");
+  IElementType DIRECTIVE_REPEATABLE = new GraphQXLElementType("DIRECTIVE_REPEATABLE");
+  IElementType ENUM_DEF = new GraphQXLElementType("ENUM_DEF");
+  IElementType ENUM_SELECTION_SET = new GraphQXLElementType("ENUM_SELECTION_SET");
   IElementType EXPANDABLE_REF = new GraphQXLElementType("EXPANDABLE_REF");
-  IElementType FIELD = new GraphQXLElementType("FIELD");
-  IElementType FIELDS_DEFINITION = new GraphQXLElementType("FIELDS_DEFINITION");
-  IElementType FIELD_DEFINITION = new GraphQXLElementType("FIELD_DEFINITION");
-  IElementType FLOAT_VALUE = new GraphQXLElementType("FLOAT_VALUE");
+  IElementType FIELD_WITHOUT_ARGS = new GraphQXLElementType("FIELD_WITHOUT_ARGS");
+  IElementType FIELD_WITHOUT_ARGS_WITHOUT_VALUE = new GraphQXLElementType("FIELD_WITHOUT_ARGS_WITHOUT_VALUE");
+  IElementType FIELD_WITH_ARGS = new GraphQXLElementType("FIELD_WITH_ARGS");
+  IElementType FILENAME = new GraphQXLElementType("FILENAME");
+  IElementType FLOAT = new GraphQXLElementType("FLOAT");
+  IElementType FLOAT_DATA = new GraphQXLElementType("FLOAT_DATA");
+  IElementType FUNCTION_CALL = new GraphQXLElementType("FUNCTION_CALL");
+  IElementType FUNCTION_INPUT = new GraphQXLElementType("FUNCTION_INPUT");
   IElementType GENERIC = new GraphQXLElementType("GENERIC");
   IElementType GENERIC_CALL = new GraphQXLElementType("GENERIC_CALL");
-  IElementType GENERIC_INPUT_OBJECT_TYPE_DEFINITION = new GraphQXLElementType("GENERIC_INPUT_OBJECT_TYPE_DEFINITION");
-  IElementType GENERIC_OBJECT_TYPE_DEFINITION = new GraphQXLElementType("GENERIC_OBJECT_TYPE_DEFINITION");
+  IElementType GENERIC_INPUT_DEF = new GraphQXLElementType("GENERIC_INPUT_DEF");
+  IElementType GENERIC_TYPE_DEF = new GraphQXLElementType("GENERIC_TYPE_DEF");
   IElementType IDENTIFIER = new GraphQXLElementType("IDENTIFIER");
-  IElementType IMPLEMENTS_INTERFACES = new GraphQXLElementType("IMPLEMENTS_INTERFACES");
+  IElementType IMPLEMENTS = new GraphQXLElementType("IMPLEMENTS");
   IElementType IMPORT = new GraphQXLElementType("IMPORT");
-  IElementType INPUT_OBJECT_TYPE_DEFINITION = new GraphQXLElementType("INPUT_OBJECT_TYPE_DEFINITION");
-  IElementType INPUT_OBJECT_VALUE_DEFINITIONS = new GraphQXLElementType("INPUT_OBJECT_VALUE_DEFINITIONS");
-  IElementType INPUT_VALUE_DEFINITION = new GraphQXLElementType("INPUT_VALUE_DEFINITION");
-  IElementType INTERFACE_TYPE_DEFINITION = new GraphQXLElementType("INTERFACE_TYPE_DEFINITION");
-  IElementType INT_VALUE = new GraphQXLElementType("INT_VALUE");
-  IElementType LIST_TYPE = new GraphQXLElementType("LIST_TYPE");
+  IElementType INPUT_DEF = new GraphQXLElementType("INPUT_DEF");
+  IElementType INPUT_SELECTION_SET = new GraphQXLElementType("INPUT_SELECTION_SET");
+  IElementType INT = new GraphQXLElementType("INT");
+  IElementType INTERFACE_DEF = new GraphQXLElementType("INTERFACE_DEF");
+  IElementType INTERFACE_SELECTION_SET = new GraphQXLElementType("INTERFACE_SELECTION_SET");
+  IElementType INT_DATA = new GraphQXLElementType("INT_DATA");
+  IElementType LIST_DATA = new GraphQXLElementType("LIST_DATA");
   IElementType MODIFIED_REF = new GraphQXLElementType("MODIFIED_REF");
-  IElementType NON_NULL_TYPE = new GraphQXLElementType("NON_NULL_TYPE");
-  IElementType NULL_VALUE = new GraphQXLElementType("NULL_VALUE");
-  IElementType OBJECT_FIELD = new GraphQXLElementType("OBJECT_FIELD");
-  IElementType OBJECT_TYPE_DEFINITION = new GraphQXLElementType("OBJECT_TYPE_DEFINITION");
-  IElementType OBJECT_VALUE = new GraphQXLElementType("OBJECT_VALUE");
-  IElementType OPERATION_TYPE = new GraphQXLElementType("OPERATION_TYPE");
-  IElementType OPERATION_TYPE_DEFINITION = new GraphQXLElementType("OPERATION_TYPE_DEFINITION");
-  IElementType OPERATION_TYPE_DEFINITIONS = new GraphQXLElementType("OPERATION_TYPE_DEFINITIONS");
+  IElementType MULTILINE_DESCRIPTION = new GraphQXLElementType("MULTILINE_DESCRIPTION");
+  IElementType OBJECT = new GraphQXLElementType("OBJECT");
+  IElementType OBJECT_DATA = new GraphQXLElementType("OBJECT_DATA");
+  IElementType OBJECT_ENTRY = new GraphQXLElementType("OBJECT_ENTRY");
+  IElementType ONE_LINE_DESCRIPTION = new GraphQXLElementType("ONE_LINE_DESCRIPTION");
   IElementType OPTIONAL_MODIFIER = new GraphQXLElementType("OPTIONAL_MODIFIER");
-  IElementType QUOTED_STRING = new GraphQXLElementType("QUOTED_STRING");
+  IElementType OTHER_IDENTIFIER = new GraphQXLElementType("OTHER_IDENTIFIER");
   IElementType REQUIRED_MODIFIER = new GraphQXLElementType("REQUIRED_MODIFIER");
-  IElementType SCALAR_TYPE_DEFINITION = new GraphQXLElementType("SCALAR_TYPE_DEFINITION");
-  IElementType SCHEMA_DEFINITION = new GraphQXLElementType("SCHEMA_DEFINITION");
-  IElementType SELECTION = new GraphQXLElementType("SELECTION");
-  IElementType SELECTION_SET = new GraphQXLElementType("SELECTION_SET");
-  IElementType SPREAD_FIELD_DEFINITION = new GraphQXLElementType("SPREAD_FIELD_DEFINITION");
-  IElementType SPREAD_INPUT_DEFINITION = new GraphQXLElementType("SPREAD_INPUT_DEFINITION");
-  IElementType STRING_LITERAL = new GraphQXLElementType("STRING_LITERAL");
-  IElementType STRING_VALUE = new GraphQXLElementType("STRING_VALUE");
-  IElementType TYPE = new GraphQXLElementType("TYPE");
-  IElementType TYPE_DEFINITION = new GraphQXLElementType("TYPE_DEFINITION");
-  IElementType TYPE_NAME = new GraphQXLElementType("TYPE_NAME");
-  IElementType TYPE_NAME_DEFINITION = new GraphQXLElementType("TYPE_NAME_DEFINITION");
-  IElementType TYPE_SYSTEM_DEFINITION = new GraphQXLElementType("TYPE_SYSTEM_DEFINITION");
-  IElementType UNION_MEMBERS = new GraphQXLElementType("UNION_MEMBERS");
-  IElementType UNION_MEMBERSHIP = new GraphQXLElementType("UNION_MEMBERSHIP");
-  IElementType UNION_TYPE_DEFINITION = new GraphQXLElementType("UNION_TYPE_DEFINITION");
-  IElementType VALUE = new GraphQXLElementType("VALUE");
+  IElementType SCALAR_DEF = new GraphQXLElementType("SCALAR_DEF");
+  IElementType SCHEMA_DEF = new GraphQXLElementType("SCHEMA_DEF");
+  IElementType SCHEMA_FIELD = new GraphQXLElementType("SCHEMA_FIELD");
+  IElementType SCHEMA_KEY = new GraphQXLElementType("SCHEMA_KEY");
+  IElementType SCHEMA_SELECTION_SET = new GraphQXLElementType("SCHEMA_SELECTION_SET");
+  IElementType SPREAD_REFERENCE = new GraphQXLElementType("SPREAD_REFERENCE");
+  IElementType STRING = new GraphQXLElementType("STRING");
+  IElementType STRING_DATA = new GraphQXLElementType("STRING_DATA");
+  IElementType TYPE_DEF = new GraphQXLElementType("TYPE_DEF");
+  IElementType TYPE_SELECTION_SET = new GraphQXLElementType("TYPE_SELECTION_SET");
+  IElementType UNION_DEF = new GraphQXLElementType("UNION_DEF");
+  IElementType VALUE_ARRAY = new GraphQXLElementType("VALUE_ARRAY");
+  IElementType VALUE_BASIC_TYPE = new GraphQXLElementType("VALUE_BASIC_TYPE");
+  IElementType VALUE_DATA = new GraphQXLElementType("VALUE_DATA");
+  IElementType VALUE_NON_NULLABLE = new GraphQXLElementType("VALUE_NON_NULLABLE");
+  IElementType VALUE_TYPE = new GraphQXLElementType("VALUE_TYPE");
 
   IElementType AMP = new GraphQXLTokenType("&");
   IElementType ANGLE_BRACKET_L = new GraphQXLTokenType("<");
@@ -94,7 +92,7 @@ public interface GraphQXLTypes {
   IElementType ENUM_KEYWORD = new GraphQXLTokenType("enum");
   IElementType EOL_COMMENT = new GraphQXLTokenType("EOL_COMMENT");
   IElementType EQUALS = new GraphQXLTokenType("=");
-  IElementType FLOAT = new GraphQXLTokenType("FLOAT");
+  IElementType FLOAT_NUMBER = new GraphQXLTokenType("FLOAT_NUMBER");
   IElementType IMPLEMENTS_KEYWORD = new GraphQXLTokenType("implements");
   IElementType IMPORT_KEYWORD = new GraphQXLTokenType("import");
   IElementType INPUT_KEYWORD = new GraphQXLTokenType("input");
@@ -124,32 +122,29 @@ public interface GraphQXLTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == ALIAS) {
-        return new GraphQXLAliasImpl(node);
-      }
-      else if (type == ARGUMENT) {
+      if (type == ARGUMENT) {
         return new GraphQXLArgumentImpl(node);
       }
       else if (type == ARGUMENTS) {
         return new GraphQXLArgumentsImpl(node);
       }
-      else if (type == ARGUMENTS_DEFINITION) {
-        return new GraphQXLArgumentsDefinitionImpl(node);
+      else if (type == BASIC_DATA) {
+        return new GraphQXLBasicDataImpl(node);
       }
-      else if (type == ARRAY_VALUE) {
-        return new GraphQXLArrayValueImpl(node);
+      else if (type == BASIC_TYPE) {
+        return new GraphQXLBasicTypeImpl(node);
       }
-      else if (type == BLOCK_STRING) {
-        return new GraphQXLBlockStringImpl(node);
+      else if (type == BOOLEAN) {
+        return new GraphQXLBooleanImpl(node);
       }
-      else if (type == BOOLEAN_VALUE) {
-        return new GraphQXLBooleanValueImpl(node);
+      else if (type == BOOLEAN_DATA) {
+        return new GraphQXLBooleanDataImpl(node);
       }
-      else if (type == DEFAULT_VALUE) {
-        return new GraphQXLDefaultValueImpl(node);
+      else if (type == CHAR_NO_DOUBLE_QUOTE) {
+        return new GraphQXLCharNoDoubleQuoteImpl(node);
       }
-      else if (type == DEFINITION) {
-        return new GraphQXLDefinitionImpl(node);
+      else if (type == DEF) {
+        return new GraphQXLDefImpl(node);
       }
       else if (type == DESCRIPTION) {
         return new GraphQXLDescriptionImpl(node);
@@ -163,41 +158,47 @@ public interface GraphQXLTypes {
       else if (type == DIRECTIVE) {
         return new GraphQXLDirectiveImpl(node);
       }
-      else if (type == DIRECTIVE_DEFINITION) {
-        return new GraphQXLDirectiveDefinitionImpl(node);
+      else if (type == DIRECTIVE_DEF) {
+        return new GraphQXLDirectiveDefImpl(node);
       }
       else if (type == DIRECTIVE_LOCATION) {
         return new GraphQXLDirectiveLocationImpl(node);
       }
-      else if (type == DIRECTIVE_LOCATIONS) {
-        return new GraphQXLDirectiveLocationsImpl(node);
+      else if (type == DIRECTIVE_REPEATABLE) {
+        return new GraphQXLDirectiveRepeatableImpl(node);
       }
-      else if (type == ENUM_TYPE_DEFINITION) {
-        return new GraphQXLEnumTypeDefinitionImpl(node);
+      else if (type == ENUM_DEF) {
+        return new GraphQXLEnumDefImpl(node);
       }
-      else if (type == ENUM_VALUE) {
-        return new GraphQXLEnumValueImpl(node);
-      }
-      else if (type == ENUM_VALUE_DEFINITION) {
-        return new GraphQXLEnumValueDefinitionImpl(node);
-      }
-      else if (type == ENUM_VALUE_DEFINITIONS) {
-        return new GraphQXLEnumValueDefinitionsImpl(node);
+      else if (type == ENUM_SELECTION_SET) {
+        return new GraphQXLEnumSelectionSetImpl(node);
       }
       else if (type == EXPANDABLE_REF) {
         return new GraphQXLExpandableRefImpl(node);
       }
-      else if (type == FIELD) {
-        return new GraphQXLFieldImpl(node);
+      else if (type == FIELD_WITHOUT_ARGS) {
+        return new GraphQXLFieldWithoutArgsImpl(node);
       }
-      else if (type == FIELDS_DEFINITION) {
-        return new GraphQXLFieldsDefinitionImpl(node);
+      else if (type == FIELD_WITHOUT_ARGS_WITHOUT_VALUE) {
+        return new GraphQXLFieldWithoutArgsWithoutValueImpl(node);
       }
-      else if (type == FIELD_DEFINITION) {
-        return new GraphQXLFieldDefinitionImpl(node);
+      else if (type == FIELD_WITH_ARGS) {
+        return new GraphQXLFieldWithArgsImpl(node);
       }
-      else if (type == FLOAT_VALUE) {
-        return new GraphQXLFloatValueImpl(node);
+      else if (type == FILENAME) {
+        return new GraphQXLFilenameImpl(node);
+      }
+      else if (type == FLOAT) {
+        return new GraphQXLFloatImpl(node);
+      }
+      else if (type == FLOAT_DATA) {
+        return new GraphQXLFloatDataImpl(node);
+      }
+      else if (type == FUNCTION_CALL) {
+        return new GraphQXLFunctionCallImpl(node);
+      }
+      else if (type == FUNCTION_INPUT) {
+        return new GraphQXLFunctionInputImpl(node);
       }
       else if (type == GENERIC) {
         return new GraphQXLGenericImpl(node);
@@ -205,110 +206,116 @@ public interface GraphQXLTypes {
       else if (type == GENERIC_CALL) {
         return new GraphQXLGenericCallImpl(node);
       }
-      else if (type == GENERIC_INPUT_OBJECT_TYPE_DEFINITION) {
-        return new GraphQXLGenericInputObjectTypeDefinitionImpl(node);
+      else if (type == GENERIC_INPUT_DEF) {
+        return new GraphQXLGenericInputDefImpl(node);
       }
-      else if (type == GENERIC_OBJECT_TYPE_DEFINITION) {
-        return new GraphQXLGenericObjectTypeDefinitionImpl(node);
+      else if (type == GENERIC_TYPE_DEF) {
+        return new GraphQXLGenericTypeDefImpl(node);
       }
       else if (type == IDENTIFIER) {
         return new GraphQXLIdentifierImpl(node);
       }
-      else if (type == IMPLEMENTS_INTERFACES) {
-        return new GraphQXLImplementsInterfacesImpl(node);
+      else if (type == IMPLEMENTS) {
+        return new GraphQXLImplementsImpl(node);
       }
       else if (type == IMPORT) {
         return new GraphQXLImportImpl(node);
       }
-      else if (type == INPUT_OBJECT_TYPE_DEFINITION) {
-        return new GraphQXLInputObjectTypeDefinitionImpl(node);
+      else if (type == INPUT_DEF) {
+        return new GraphQXLInputDefImpl(node);
       }
-      else if (type == INPUT_OBJECT_VALUE_DEFINITIONS) {
-        return new GraphQXLInputObjectValueDefinitionsImpl(node);
+      else if (type == INPUT_SELECTION_SET) {
+        return new GraphQXLInputSelectionSetImpl(node);
       }
-      else if (type == INPUT_VALUE_DEFINITION) {
-        return new GraphQXLInputValueDefinitionImpl(node);
+      else if (type == INT) {
+        return new GraphQXLIntImpl(node);
       }
-      else if (type == INTERFACE_TYPE_DEFINITION) {
-        return new GraphQXLInterfaceTypeDefinitionImpl(node);
+      else if (type == INTERFACE_DEF) {
+        return new GraphQXLInterfaceDefImpl(node);
       }
-      else if (type == INT_VALUE) {
-        return new GraphQXLIntValueImpl(node);
+      else if (type == INTERFACE_SELECTION_SET) {
+        return new GraphQXLInterfaceSelectionSetImpl(node);
       }
-      else if (type == LIST_TYPE) {
-        return new GraphQXLListTypeImpl(node);
+      else if (type == INT_DATA) {
+        return new GraphQXLIntDataImpl(node);
+      }
+      else if (type == LIST_DATA) {
+        return new GraphQXLListDataImpl(node);
       }
       else if (type == MODIFIED_REF) {
         return new GraphQXLModifiedRefImpl(node);
       }
-      else if (type == NON_NULL_TYPE) {
-        return new GraphQXLNonNullTypeImpl(node);
+      else if (type == MULTILINE_DESCRIPTION) {
+        return new GraphQXLMultilineDescriptionImpl(node);
       }
-      else if (type == NULL_VALUE) {
-        return new GraphQXLNullValueImpl(node);
+      else if (type == OBJECT) {
+        return new GraphQXLObjectImpl(node);
       }
-      else if (type == OBJECT_FIELD) {
-        return new GraphQXLObjectFieldImpl(node);
+      else if (type == OBJECT_DATA) {
+        return new GraphQXLObjectDataImpl(node);
       }
-      else if (type == OBJECT_TYPE_DEFINITION) {
-        return new GraphQXLObjectTypeDefinitionImpl(node);
+      else if (type == OBJECT_ENTRY) {
+        return new GraphQXLObjectEntryImpl(node);
       }
-      else if (type == OBJECT_VALUE) {
-        return new GraphQXLObjectValueImpl(node);
-      }
-      else if (type == OPERATION_TYPE) {
-        return new GraphQXLOperationTypeImpl(node);
-      }
-      else if (type == OPERATION_TYPE_DEFINITION) {
-        return new GraphQXLOperationTypeDefinitionImpl(node);
-      }
-      else if (type == OPERATION_TYPE_DEFINITIONS) {
-        return new GraphQXLOperationTypeDefinitionsImpl(node);
+      else if (type == ONE_LINE_DESCRIPTION) {
+        return new GraphQXLOneLineDescriptionImpl(node);
       }
       else if (type == OPTIONAL_MODIFIER) {
         return new GraphQXLOptionalModifierImpl(node);
       }
-      else if (type == QUOTED_STRING) {
-        return new GraphQXLQuotedStringImpl(node);
+      else if (type == OTHER_IDENTIFIER) {
+        return new GraphQXLOtherIdentifierImpl(node);
       }
       else if (type == REQUIRED_MODIFIER) {
         return new GraphQXLRequiredModifierImpl(node);
       }
-      else if (type == SCALAR_TYPE_DEFINITION) {
-        return new GraphQXLScalarTypeDefinitionImpl(node);
+      else if (type == SCALAR_DEF) {
+        return new GraphQXLScalarDefImpl(node);
       }
-      else if (type == SCHEMA_DEFINITION) {
-        return new GraphQXLSchemaDefinitionImpl(node);
+      else if (type == SCHEMA_DEF) {
+        return new GraphQXLSchemaDefImpl(node);
       }
-      else if (type == SELECTION) {
-        return new GraphQXLSelectionImpl(node);
+      else if (type == SCHEMA_FIELD) {
+        return new GraphQXLSchemaFieldImpl(node);
       }
-      else if (type == SELECTION_SET) {
-        return new GraphQXLSelectionSetImpl(node);
+      else if (type == SCHEMA_KEY) {
+        return new GraphQXLSchemaKeyImpl(node);
       }
-      else if (type == SPREAD_FIELD_DEFINITION) {
-        return new GraphQXLSpreadFieldDefinitionImpl(node);
+      else if (type == SCHEMA_SELECTION_SET) {
+        return new GraphQXLSchemaSelectionSetImpl(node);
       }
-      else if (type == SPREAD_INPUT_DEFINITION) {
-        return new GraphQXLSpreadInputDefinitionImpl(node);
+      else if (type == SPREAD_REFERENCE) {
+        return new GraphQXLSpreadReferenceImpl(node);
       }
-      else if (type == STRING_VALUE) {
-        return new GraphQXLStringValueImpl(node);
+      else if (type == STRING) {
+        return new GraphQXLStringImpl(node);
       }
-      else if (type == TYPE_NAME) {
-        return new GraphQXLTypeNameImpl(node);
+      else if (type == STRING_DATA) {
+        return new GraphQXLStringDataImpl(node);
       }
-      else if (type == TYPE_NAME_DEFINITION) {
-        return new GraphQXLTypeNameDefinitionImpl(node);
+      else if (type == TYPE_DEF) {
+        return new GraphQXLTypeDefImpl(node);
       }
-      else if (type == UNION_MEMBERS) {
-        return new GraphQXLUnionMembersImpl(node);
+      else if (type == TYPE_SELECTION_SET) {
+        return new GraphQXLTypeSelectionSetImpl(node);
       }
-      else if (type == UNION_MEMBERSHIP) {
-        return new GraphQXLUnionMembershipImpl(node);
+      else if (type == UNION_DEF) {
+        return new GraphQXLUnionDefImpl(node);
       }
-      else if (type == UNION_TYPE_DEFINITION) {
-        return new GraphQXLUnionTypeDefinitionImpl(node);
+      else if (type == VALUE_ARRAY) {
+        return new GraphQXLValueArrayImpl(node);
+      }
+      else if (type == VALUE_BASIC_TYPE) {
+        return new GraphQXLValueBasicTypeImpl(node);
+      }
+      else if (type == VALUE_DATA) {
+        return new GraphQXLValueDataImpl(node);
+      }
+      else if (type == VALUE_NON_NULLABLE) {
+        return new GraphQXLValueNonNullableImpl(node);
+      }
+      else if (type == VALUE_TYPE) {
+        return new GraphQXLValueTypeImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

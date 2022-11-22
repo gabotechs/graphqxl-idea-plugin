@@ -21,7 +21,7 @@ class GraphQXLPsiUtil {
                 psiElement,
                 GraphQXLNamedTypeDefinition::class.java,
             )
-            val nameIdentifier = typeOwner?.typeNameDefinition?.nameIdentifier ?: return null
+            val nameIdentifier = typeOwner?.identifier ?: return null
             typeNameRef?.set(nameIdentifier)
             return nameIdentifier.text
         }

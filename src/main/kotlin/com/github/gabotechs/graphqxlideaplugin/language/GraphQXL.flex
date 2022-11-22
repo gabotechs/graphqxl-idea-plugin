@@ -83,7 +83,7 @@ FRACTIONAL_PART = "." {DIGIT}+
 EXPONENT_PART = [eE] [+-]? {DIGIT}+
 
 NUMBER = {INTEGER_PART}
-FLOAT = {INTEGER_PART} {FRACTIONAL_PART} | {INTEGER_PART} {EXPONENT_PART} | {INTEGER_PART} {FRACTIONAL_PART} {EXPONENT_PART}
+FLOAT_NUMBER = {INTEGER_PART} {FRACTIONAL_PART} | {INTEGER_PART} {EXPONENT_PART} | {INTEGER_PART} {FRACTIONAL_PART} {EXPONENT_PART}
 
 %eof{
   myLeftBraceCount = 0;
@@ -141,7 +141,7 @@ FLOAT = {INTEGER_PART} {FRACTIONAL_PART} | {INTEGER_PART} {EXPONENT_PART} | {INT
   \"                 { pushState(QUOTED_STRING); return OPEN_QUOTE;    }
   {THREE_QUO}        { pushState(BLOCK_STRING);  return OPEN_TRIPLE_QUOTE;    }
   {NUMBER}           { return NUMBER; }
-  {FLOAT}            { return FLOAT; }
+  {FLOAT_NUMBER}     { return FLOAT_NUMBER; }
 
   // identifiers
   {NAME}             { return NAME; }

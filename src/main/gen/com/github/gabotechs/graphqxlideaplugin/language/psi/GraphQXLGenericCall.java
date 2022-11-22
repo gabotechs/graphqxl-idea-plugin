@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface GraphQXLGenericCall extends GraphQXLElement {
 
   @NotNull
-  List<GraphQXLType> getTypeList();
+  List<GraphQXLValueType> getValueTypeList();
 
 }

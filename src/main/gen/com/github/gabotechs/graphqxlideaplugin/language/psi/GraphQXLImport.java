@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface GraphQXLImport extends GraphQXLElement {
 
   @NotNull
-  GraphQXLQuotedString getQuotedString();
+  GraphQXLFilename getFilename();
 
 }

@@ -28,8 +28,8 @@ public class GraphQXLDescriptionVariableImpl extends GraphQXLElementImpl impleme
 
   @Override
   @Nullable
-  public GraphQXLQuotedString getQuotedString() {
-    return findChildByClass(GraphQXLQuotedString.class);
+  public GraphQXLStringData getStringData() {
+    return findChildByClass(GraphQXLStringData.class);
   }
 
   @Override

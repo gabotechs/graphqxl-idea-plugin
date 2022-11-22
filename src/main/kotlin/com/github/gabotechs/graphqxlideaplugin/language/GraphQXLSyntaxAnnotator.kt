@@ -29,21 +29,9 @@ class GraphQXLSyntaxAnnotator : Annotator {
             "GRAPHQXL_ARGUMENT",
             DefaultLanguageHighlighterColors.PARAMETER
         )
-        val PARAMETER = TextAttributesKey.createTextAttributesKey(
-            "GRAPHQXL_PARAMETER",
-            ARGUMENT
-        )
-        val OBJECT_FIELD = TextAttributesKey.createTextAttributesKey(
-            "GRAPHQXL_OBJECT_FIELD",
-            ARGUMENT
-        )
         val TYPE_NAME = TextAttributesKey.createTextAttributesKey(
             "GRAPHQXL_TYPE_NAME",
             DefaultLanguageHighlighterColors.CLASS_NAME
-        )
-        val CONSTANT = TextAttributesKey.createTextAttributesKey(
-            "GRAPHQXL_CONSTANT",
-            DefaultLanguageHighlighterColors.CONSTANT
         )
         val DIRECTIVE = TextAttributesKey.createTextAttributesKey(
             "GRAPHQXL_DIRECTIVE",
@@ -52,6 +40,10 @@ class GraphQXLSyntaxAnnotator : Annotator {
         val MODIFIER = TextAttributesKey.createTextAttributesKey(
             "GRAPHQXL_MODIFIER",
             DefaultLanguageHighlighterColors.STATIC_METHOD
+        )
+        val COMMENT = TextAttributesKey.createTextAttributesKey(
+            "GRAPHQXL_COMMENT",
+            DefaultLanguageHighlighterColors.LINE_COMMENT
         )
 
         class GraphQXLSyntaxAnnotatorVisitor(private val myHolder: AnnotationHolder) :
@@ -65,39 +57,20 @@ class GraphQXLSyntaxAnnotator : Annotator {
                 applyTextAttributes(o.originalElement, MODIFIER)
             }
 
-            override fun visitOperationType(operationType: GraphQXLOperationType) {
-                val parent: PsiElement = operationType.parent
-                if (parent is GraphQXLOperationTypeDefinition) {
-                    resetKeywordAttributes(operationType)
-                    applyTextAttributes(operationType, FIELD_NAME)
-                }
+            override fun visitFieldWithoutArgsWithoutValue(o: GraphQXLFieldWithoutArgsWithoutValue) {
+                applyTextAttributes(o.nameIdentifier, FIELD_NAME)
             }
 
-            override fun visitTypeNameDefinition(definition: GraphQXLTypeNameDefinition) {
-                applyTextAttributes(definition.nameIdentifier, TYPE_NAME)
+            override fun visitFieldWithoutArgs(o: GraphQXLFieldWithoutArgs) {
+                applyTextAttributes(o.nameIdentifier, FIELD_NAME)
             }
 
-            override fun visitField(field: GraphQXLField) {
-                val nameIdentifier: GraphQXLIdentifier = field.nameIdentifier
-                resetKeywordAttributes(nameIdentifier)
-                applyTextAttributes(nameIdentifier, FIELD_NAME)
+            override fun visitFieldWithArgs(o: GraphQXLFieldWithArgs) {
+                applyTextAttributes(o.nameIdentifier, FIELD_NAME)
             }
 
-            override fun visitFieldDefinition(fieldDefinition: GraphQXLFieldDefinition) {
-                val nameIdentifier: GraphQXLIdentifier = fieldDefinition.nameIdentifier
-                resetKeywordAttributes(nameIdentifier)
-                applyTextAttributes(nameIdentifier, FIELD_NAME)
-            }
-
-            override fun visitInputValueDefinition(element: GraphQXLInputValueDefinition) {
-                val identifier: GraphQXLIdentifier = element.nameIdentifier
-                resetKeywordAttributes(identifier)
-                val parent = element.parent
-                if (parent is GraphQXLArgumentsDefinition) {
-                    applyTextAttributes(identifier, PARAMETER)
-                } else {
-                    applyTextAttributes(identifier, FIELD_NAME)
-                }
+            override fun visitDescriptionVariable(o: GraphQXLDescriptionVariable) {
+                applyTextAttributes(o.nameIdentifier, COMMENT)
             }
 
             override fun visitArgument(argument: GraphQXLArgument) {
@@ -106,32 +79,12 @@ class GraphQXLSyntaxAnnotator : Annotator {
                 applyTextAttributes(identifier, ARGUMENT)
             }
 
-            override fun visitTypeName(typeName: GraphQXLTypeName) {
-                applyTextAttributes(typeName.nameIdentifier, TYPE_NAME)
-            }
-
             override fun visitDirectiveLocation(location: GraphQXLDirectiveLocation) {
                 applyTextAttributes(location, TYPE_NAME)
             }
 
-            override fun visitBooleanValue(value: GraphQXLBooleanValue) {
-                applyTextAttributes(value, DefaultLanguageHighlighterColors.KEYWORD)
-            }
-
-            override fun visitNullValue(value: GraphQXLNullValue) {
-                applyTextAttributes(value, DefaultLanguageHighlighterColors.KEYWORD)
-            }
-
-            override fun visitEnumValue(value: GraphQXLEnumValue) {
-                applyTextAttributes(value, CONSTANT)
-            }
-
             override fun visitDirective(directive: GraphQXLDirective) {
                 highlightDirectiveName(directive, directive.nameIdentifier)
-            }
-
-            override fun visitDirectiveDefinition(directiveDefinition: GraphQXLDirectiveDefinition) {
-                highlightDirectiveName(directiveDefinition, directiveDefinition.nameIdentifier)
             }
 
             private fun highlightDirectiveName(element: GraphQXLElement, identifier: GraphQXLIdentifier?) {
@@ -145,12 +98,6 @@ class GraphQXLSyntaxAnnotator : Annotator {
                     textRange = textRange.union(prevTextRange)
                 }
                 applyTextAttributes(element, DIRECTIVE, textRange)
-            }
-
-            override fun visitObjectField(objectField: GraphQXLObjectField) {
-                val nameIdentifier = objectField.nameIdentifier
-                resetKeywordAttributes(nameIdentifier)
-                applyTextAttributes(nameIdentifier, OBJECT_FIELD)
             }
 
             private fun applyTextAttributes(element: PsiElement?, attributes: TextAttributesKey) {

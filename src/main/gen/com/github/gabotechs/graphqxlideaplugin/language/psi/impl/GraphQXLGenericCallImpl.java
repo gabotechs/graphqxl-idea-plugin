@@ -28,8 +28,8 @@ public class GraphQXLGenericCallImpl extends GraphQXLElementImpl implements Grap
 
   @Override
   @NotNull
-  public List<GraphQXLType> getTypeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GraphQXLType.class);
+  public List<GraphQXLValueType> getValueTypeList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GraphQXLValueType.class);
   }
 
 }
