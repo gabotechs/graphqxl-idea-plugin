@@ -28,8 +28,8 @@ public class GraphQXLImportImpl extends GraphQXLElementImpl implements GraphQXLI
 
   @Override
   @NotNull
-  public GraphQXLQuotedString getQuotedString() {
-    return findNotNullChildByClass(GraphQXLQuotedString.class);
+  public GraphQXLFilename getFilename() {
+    return findNotNullChildByClass(GraphQXLFilename.class);
   }
 
 }

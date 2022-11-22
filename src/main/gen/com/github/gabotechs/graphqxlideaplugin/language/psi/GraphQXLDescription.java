@@ -7,7 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface GraphQXLDescription extends GraphQXLElement {
 
-  @NotNull
-  GraphQXLStringLiteral getStringLiteral();
+  @Nullable
+  GraphQXLMultilineDescription getMultilineDescription();
+
+  @Nullable
+  GraphQXLOneLineDescription getOneLineDescription();
 
 }

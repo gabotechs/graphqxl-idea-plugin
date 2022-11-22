@@ -27,9 +27,15 @@ public class GraphQXLDescriptionImpl extends GraphQXLElementImpl implements Grap
   }
 
   @Override
-  @NotNull
-  public GraphQXLStringLiteral getStringLiteral() {
-    return findNotNullChildByClass(GraphQXLStringLiteral.class);
+  @Nullable
+  public GraphQXLMultilineDescription getMultilineDescription() {
+    return findChildByClass(GraphQXLMultilineDescription.class);
+  }
+
+  @Override
+  @Nullable
+  public GraphQXLOneLineDescription getOneLineDescription() {
+    return findChildByClass(GraphQXLOneLineDescription.class);
   }
 
 }

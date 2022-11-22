@@ -6,39 +6,35 @@ import com.intellij.psi.PsiElementVisitor;
 
 public class GraphQXLVisitorBase extends PsiElementVisitor {
 
-  public void visitAlias(@NotNull GraphQXLAlias o) {
-    visitElement(o);
-  }
-
   public void visitArgument(@NotNull GraphQXLArgument o) {
-    visitNamedElement(o);
+    visitElement(o);
   }
 
   public void visitArguments(@NotNull GraphQXLArguments o) {
     visitElement(o);
   }
 
-  public void visitArgumentsDefinition(@NotNull GraphQXLArgumentsDefinition o) {
+  public void visitBasicData(@NotNull GraphQXLBasicData o) {
     visitElement(o);
   }
 
-  public void visitArrayValue(@NotNull GraphQXLArrayValue o) {
-    visitValue(o);
-  }
-
-  public void visitBlockString(@NotNull GraphQXLBlockString o) {
-    visitStringLiteral(o);
-  }
-
-  public void visitBooleanValue(@NotNull GraphQXLBooleanValue o) {
-    visitValue(o);
-  }
-
-  public void visitDefaultValue(@NotNull GraphQXLDefaultValue o) {
+  public void visitBasicType(@NotNull GraphQXLBasicType o) {
     visitElement(o);
   }
 
-  public void visitDefinition(@NotNull GraphQXLDefinition o) {
+  public void visitBoolean(@NotNull GraphQXLBoolean o) {
+    visitElement(o);
+  }
+
+  public void visitBooleanData(@NotNull GraphQXLBooleanData o) {
+    visitElement(o);
+  }
+
+  public void visitCharNoDoubleQuote(@NotNull GraphQXLCharNoDoubleQuote o) {
+    visitElement(o);
+  }
+
+  public void visitDef(@NotNull GraphQXLDef o) {
     visitElement(o);
   }
 
@@ -55,36 +51,26 @@ public class GraphQXLVisitorBase extends PsiElementVisitor {
   }
 
   public void visitDirective(@NotNull GraphQXLDirective o) {
-    visitNamedElement(o);
+    visitElement(o);
   }
 
-  public void visitDirectiveDefinition(@NotNull GraphQXLDirectiveDefinition o) {
-    visitTypeSystemDefinition(o);
-    // visitDescriptionAware(o);
+  public void visitDirectiveDef(@NotNull GraphQXLDirectiveDef o) {
+    visitElement(o);
   }
 
   public void visitDirectiveLocation(@NotNull GraphQXLDirectiveLocation o) {
     visitElement(o);
   }
 
-  public void visitDirectiveLocations(@NotNull GraphQXLDirectiveLocations o) {
+  public void visitDirectiveRepeatable(@NotNull GraphQXLDirectiveRepeatable o) {
     visitElement(o);
   }
 
-  public void visitEnumTypeDefinition(@NotNull GraphQXLEnumTypeDefinition o) {
-    visitTypeDefinition(o);
+  public void visitEnumDef(@NotNull GraphQXLEnumDef o) {
+    visitNamedElement(o);
   }
 
-  public void visitEnumValue(@NotNull GraphQXLEnumValue o) {
-    visitValue(o);
-    // visitNamedElement(o);
-  }
-
-  public void visitEnumValueDefinition(@NotNull GraphQXLEnumValueDefinition o) {
-    visitDescriptionAware(o);
-  }
-
-  public void visitEnumValueDefinitions(@NotNull GraphQXLEnumValueDefinitions o) {
+  public void visitEnumSelectionSet(@NotNull GraphQXLEnumSelectionSet o) {
     visitElement(o);
   }
 
@@ -92,44 +78,59 @@ public class GraphQXLVisitorBase extends PsiElementVisitor {
     visitElement(o);
   }
 
-  public void visitField(@NotNull GraphQXLField o) {
+  public void visitFieldWithArgs(@NotNull GraphQXLFieldWithArgs o) {
     visitNamedElement(o);
   }
 
-  public void visitFieldDefinition(@NotNull GraphQXLFieldDefinition o) {
+  public void visitFieldWithoutArgs(@NotNull GraphQXLFieldWithoutArgs o) {
     visitNamedElement(o);
-    // visitDescriptionAware(o);
   }
 
-  public void visitFieldsDefinition(@NotNull GraphQXLFieldsDefinition o) {
+  public void visitFieldWithoutArgsWithoutValue(@NotNull GraphQXLFieldWithoutArgsWithoutValue o) {
+    visitNamedElement(o);
+  }
+
+  public void visitFilename(@NotNull GraphQXLFilename o) {
     visitElement(o);
   }
 
-  public void visitFloatValue(@NotNull GraphQXLFloatValue o) {
-    visitValue(o);
+  public void visitFloat(@NotNull GraphQXLFloat o) {
+    visitElement(o);
+  }
+
+  public void visitFloatData(@NotNull GraphQXLFloatData o) {
+    visitElement(o);
+  }
+
+  public void visitFunctionCall(@NotNull GraphQXLFunctionCall o) {
+    visitElement(o);
+  }
+
+  public void visitFunctionInput(@NotNull GraphQXLFunctionInput o) {
+    visitElement(o);
   }
 
   public void visitGeneric(@NotNull GraphQXLGeneric o) {
     visitElement(o);
   }
 
-  public void visitGenericInputObjectTypeDefinition(@NotNull GraphQXLGenericInputObjectTypeDefinition o) {
-    visitTypeDefinition(o);
-  }
-
-  public void visitGenericObjectTypeDefinition(@NotNull GraphQXLGenericObjectTypeDefinition o) {
-    visitTypeDefinition(o);
-  }
-
   public void visitGenericCall(@NotNull GraphQXLGenericCall o) {
     visitElement(o);
+  }
+
+  public void visitGenericInputDef(@NotNull GraphQXLGenericInputDef o) {
+    visitNamedElement(o);
+  }
+
+  public void visitGenericTypeDef(@NotNull GraphQXLGenericTypeDef o) {
+    visitNamedElement(o);
   }
 
   public void visitIdentifier(@NotNull GraphQXLIdentifier o) {
     visitElement(o);
   }
 
-  public void visitImplementsInterfaces(@NotNull GraphQXLImplementsInterfaces o) {
+  public void visitImplements(@NotNull GraphQXLImplements o) {
     visitElement(o);
   }
 
@@ -137,64 +138,55 @@ public class GraphQXLVisitorBase extends PsiElementVisitor {
     visitElement(o);
   }
 
-  public void visitInputObjectTypeDefinition(@NotNull GraphQXLInputObjectTypeDefinition o) {
-    visitTypeDefinition(o);
+  public void visitInputDef(@NotNull GraphQXLInputDef o) {
+    visitNamedElement(o);
   }
 
-  public void visitInputObjectValueDefinitions(@NotNull GraphQXLInputObjectValueDefinitions o) {
+  public void visitInputSelectionSet(@NotNull GraphQXLInputSelectionSet o) {
     visitElement(o);
   }
 
-  public void visitInputValueDefinition(@NotNull GraphQXLInputValueDefinition o) {
+  public void visitInt(@NotNull GraphQXLInt o) {
+    visitElement(o);
+  }
+
+  public void visitIntData(@NotNull GraphQXLIntData o) {
+    visitElement(o);
+  }
+
+  public void visitInterfaceDef(@NotNull GraphQXLInterfaceDef o) {
     visitNamedElement(o);
-    // visitDescriptionAware(o);
   }
 
-  public void visitIntValue(@NotNull GraphQXLIntValue o) {
-    visitValue(o);
+  public void visitInterfaceSelectionSet(@NotNull GraphQXLInterfaceSelectionSet o) {
+    visitElement(o);
   }
 
-  public void visitInterfaceTypeDefinition(@NotNull GraphQXLInterfaceTypeDefinition o) {
-    visitTypeDefinition(o);
-  }
-
-  public void visitListType(@NotNull GraphQXLListType o) {
-    visitType(o);
+  public void visitListData(@NotNull GraphQXLListData o) {
+    visitElement(o);
   }
 
   public void visitModifiedRef(@NotNull GraphQXLModifiedRef o) {
     visitElement(o);
   }
 
-  public void visitNonNullType(@NotNull GraphQXLNonNullType o) {
-    visitType(o);
-  }
-
-  public void visitNullValue(@NotNull GraphQXLNullValue o) {
-    visitValue(o);
-  }
-
-  public void visitObjectField(@NotNull GraphQXLObjectField o) {
-    visitNamedElement(o);
-  }
-
-  public void visitObjectTypeDefinition(@NotNull GraphQXLObjectTypeDefinition o) {
-    visitTypeDefinition(o);
-  }
-
-  public void visitObjectValue(@NotNull GraphQXLObjectValue o) {
-    visitValue(o);
-  }
-
-  public void visitOperationType(@NotNull GraphQXLOperationType o) {
+  public void visitMultilineDescription(@NotNull GraphQXLMultilineDescription o) {
     visitElement(o);
   }
 
-  public void visitOperationTypeDefinition(@NotNull GraphQXLOperationTypeDefinition o) {
+  public void visitObject(@NotNull GraphQXLObject o) {
     visitElement(o);
   }
 
-  public void visitOperationTypeDefinitions(@NotNull GraphQXLOperationTypeDefinitions o) {
+  public void visitObjectData(@NotNull GraphQXLObjectData o) {
+    visitElement(o);
+  }
+
+  public void visitObjectEntry(@NotNull GraphQXLObjectEntry o) {
+    visitElement(o);
+  }
+
+  public void visitOneLineDescription(@NotNull GraphQXLOneLineDescription o) {
     visitElement(o);
   }
 
@@ -202,87 +194,75 @@ public class GraphQXLVisitorBase extends PsiElementVisitor {
     visitElement(o);
   }
 
-  public void visitQuotedString(@NotNull GraphQXLQuotedString o) {
-    visitStringLiteral(o);
+  public void visitOtherIdentifier(@NotNull GraphQXLOtherIdentifier o) {
+    visitElement(o);
   }
 
   public void visitRequiredModifier(@NotNull GraphQXLRequiredModifier o) {
     visitElement(o);
   }
 
-  public void visitScalarTypeDefinition(@NotNull GraphQXLScalarTypeDefinition o) {
-    visitTypeDefinition(o);
+  public void visitScalarDef(@NotNull GraphQXLScalarDef o) {
+    visitNamedElement(o);
   }
 
-  public void visitSchemaDefinition(@NotNull GraphQXLSchemaDefinition o) {
-    visitTypeSystemDefinition(o);
-    // visitDescriptionAware(o);
-  }
-
-  public void visitSelection(@NotNull GraphQXLSelection o) {
+  public void visitSchemaDef(@NotNull GraphQXLSchemaDef o) {
     visitElement(o);
   }
 
-  public void visitSelectionSet(@NotNull GraphQXLSelectionSet o) {
+  public void visitSchemaField(@NotNull GraphQXLSchemaField o) {
     visitElement(o);
   }
 
-  public void visitSpreadFieldDefinition(@NotNull GraphQXLSpreadFieldDefinition o) {
+  public void visitSchemaKey(@NotNull GraphQXLSchemaKey o) {
     visitElement(o);
   }
 
-  public void visitSpreadInputDefinition(@NotNull GraphQXLSpreadInputDefinition o) {
+  public void visitSchemaSelectionSet(@NotNull GraphQXLSchemaSelectionSet o) {
     visitElement(o);
   }
 
-  public void visitStringLiteral(@NotNull GraphQXLStringLiteral o) {
+  public void visitSpreadReference(@NotNull GraphQXLSpreadReference o) {
     visitElement(o);
   }
 
-  public void visitStringValue(@NotNull GraphQXLStringValue o) {
-    visitValue(o);
-  }
-
-  public void visitType(@NotNull GraphQXLType o) {
+  public void visitString(@NotNull GraphQXLString o) {
     visitElement(o);
   }
 
-  public void visitTypeDefinition(@NotNull GraphQXLTypeDefinition o) {
-    visitTypeSystemDefinition(o);
-    // visitDescriptionAware(o);
-  }
-
-  public void visitTypeName(@NotNull GraphQXLTypeName o) {
-    visitType(o);
-    // visitNamedElement(o);
-  }
-
-  public void visitTypeNameDefinition(@NotNull GraphQXLTypeNameDefinition o) {
-    visitType(o);
-    // visitNamedElement(o);
-  }
-
-  public void visitTypeSystemDefinition(@NotNull GraphQXLTypeSystemDefinition o) {
-    visitDefinition(o);
-  }
-
-  public void visitUnionMembers(@NotNull GraphQXLUnionMembers o) {
+  public void visitStringData(@NotNull GraphQXLStringData o) {
     visitElement(o);
   }
 
-  public void visitUnionMembership(@NotNull GraphQXLUnionMembership o) {
+  public void visitTypeDef(@NotNull GraphQXLTypeDef o) {
+    visitNamedElement(o);
+  }
+
+  public void visitTypeSelectionSet(@NotNull GraphQXLTypeSelectionSet o) {
     visitElement(o);
   }
 
-  public void visitUnionTypeDefinition(@NotNull GraphQXLUnionTypeDefinition o) {
-    visitTypeDefinition(o);
+  public void visitUnionDef(@NotNull GraphQXLUnionDef o) {
+    visitNamedElement(o);
   }
 
-  public void visitValue(@NotNull GraphQXLValue o) {
+  public void visitValueArray(@NotNull GraphQXLValueArray o) {
     visitElement(o);
   }
 
-  public void visitDescriptionAware(@NotNull GraphQXLDescriptionAware o) {
+  public void visitValueBasicType(@NotNull GraphQXLValueBasicType o) {
+    visitElement(o);
+  }
+
+  public void visitValueData(@NotNull GraphQXLValueData o) {
+    visitElement(o);
+  }
+
+  public void visitValueNonNullable(@NotNull GraphQXLValueNonNullable o) {
+    visitElement(o);
+  }
+
+  public void visitValueType(@NotNull GraphQXLValueType o) {
     visitElement(o);
   }
 

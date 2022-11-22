@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface GraphQXLDescriptionVariable extends GraphQXLElement {
 
   @Nullable
-  GraphQXLQuotedString getQuotedString();
+  GraphQXLStringData getStringData();
 
   @NotNull
   GraphQXLIdentifier getNameIdentifier();

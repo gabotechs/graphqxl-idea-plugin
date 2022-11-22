@@ -28,7 +28,7 @@ public class GraphQXLGenericImpl extends GraphQXLElementImpl implements GraphQXL
 
   @Override
   @NotNull
-  public List<GraphQXLIdentifier> getNameIdentifier() {
+  public List<GraphQXLIdentifier> getIdentifierList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, GraphQXLIdentifier.class);
   }
 

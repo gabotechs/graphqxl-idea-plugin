@@ -1,9 +1,5 @@
 package com.github.gabotechs.graphqxlideaplugin.language
 
-import com.intellij.codeInsight.editorActions.enter.EnterBetweenBracesDelegate
+import com.intellij.codeInsight.editorActions.enter.EnterBetweenBracesAndBracketsDelegate
 
-class GraphQXLEnterBetweenBracesHandler : EnterBetweenBracesDelegate() {
-    override fun isBracePair(c1: Char, c2: Char): Boolean {
-        return super.isBracePair(c1, c2) || c1 == '[' && c2 == ']'
-    }
-}
+class GraphQXLEnterBetweenBracesHandler : EnterBetweenBracesAndBracketsDelegate() {}

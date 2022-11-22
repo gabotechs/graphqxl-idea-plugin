@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLTypes.*;
 import com.github.gabotechs.graphqxlideaplugin.language.psi.*;
 
-public class GraphQXLDirectiveImpl extends GraphQXLNamedElementImpl implements GraphQXLDirective {
+public class GraphQXLDirectiveImpl extends GraphQXLElementImpl implements GraphQXLDirective {
 
   public GraphQXLDirectiveImpl(@NotNull ASTNode node) {
     super(node);
@@ -28,8 +28,8 @@ public class GraphQXLDirectiveImpl extends GraphQXLNamedElementImpl implements G
 
   @Override
   @Nullable
-  public GraphQXLArguments getArguments() {
-    return findChildByClass(GraphQXLArguments.class);
+  public GraphQXLFunctionCall getFunctionCall() {
+    return findChildByClass(GraphQXLFunctionCall.class);
   }
 
   @Override
