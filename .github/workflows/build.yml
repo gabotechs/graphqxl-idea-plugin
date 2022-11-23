@@ -142,6 +142,8 @@ jobs:
       # Check out current repository
       - name: Fetch Sources
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.CI_TOKEN }}
 
       # Remove old release drafts by using the curl request for the available releases with draft flag
       - name: Remove Old Release Drafts
