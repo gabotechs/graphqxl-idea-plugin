@@ -1044,7 +1044,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // description? INTERFACE_KEYWORD identifier directive* interface_selection_set
+  // description? INTERFACE_KEYWORD identifier implements? directive* interface_selection_set
   public static boolean interface_def(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "interface_def")) return false;
     boolean result, pinned;
@@ -1054,6 +1054,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     pinned = result; // pin = 2
     result = result && report_error_(builder, identifier(builder, level + 1));
     result = pinned && report_error_(builder, interface_def_3(builder, level + 1)) && result;
+    result = pinned && report_error_(builder, interface_def_4(builder, level + 1)) && result;
     result = pinned && interface_selection_set(builder, level + 1) && result;
     exit_section_(builder, level, marker, result, pinned, null);
     return result || pinned;
@@ -1066,19 +1067,26 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // directive*
+  // implements?
   private static boolean interface_def_3(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "interface_def_3")) return false;
+    implements_$(builder, level + 1);
+    return true;
+  }
+
+  // directive*
+  private static boolean interface_def_4(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "interface_def_4")) return false;
     while (true) {
       int pos = current_position_(builder);
       if (!directive(builder, level + 1)) break;
-      if (!empty_element_parsed_guard_(builder, "interface_def_3", pos)) break;
+      if (!empty_element_parsed_guard_(builder, "interface_def_4", pos)) break;
     }
     return true;
   }
 
   /* ********************************************************** */
-  // BRACE_L field_with_args* BRACE_R
+  // BRACE_L (field_without_args | spread_reference)* BRACE_R
   public static boolean interface_selection_set(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "interface_selection_set")) return false;
     if (!nextTokenIs(builder, BRACE_L)) return false;
@@ -1092,15 +1100,24 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     return result || pinned;
   }
 
-  // field_with_args*
+  // (field_without_args | spread_reference)*
   private static boolean interface_selection_set_1(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "interface_selection_set_1")) return false;
     while (true) {
       int pos = current_position_(builder);
-      if (!field_with_args(builder, level + 1)) break;
+      if (!interface_selection_set_1_0(builder, level + 1)) break;
       if (!empty_element_parsed_guard_(builder, "interface_selection_set_1", pos)) break;
     }
     return true;
+  }
+
+  // field_without_args | spread_reference
+  private static boolean interface_selection_set_1_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "interface_selection_set_1_0")) return false;
+    boolean result;
+    result = field_without_args(builder, level + 1);
+    if (!result) result = spread_reference(builder, level + 1);
+    return result;
   }
 
   /* ********************************************************** */

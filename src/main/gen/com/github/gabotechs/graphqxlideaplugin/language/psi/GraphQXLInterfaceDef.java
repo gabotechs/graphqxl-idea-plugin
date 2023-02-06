@@ -14,6 +14,9 @@ public interface GraphQXLInterfaceDef extends GraphQXLNamedElement {
   List<GraphQXLDirective> getDirectiveList();
 
   @Nullable
+  GraphQXLImplements getImplements();
+
+  @Nullable
   GraphQXLInterfaceSelectionSet getInterfaceSelectionSet();
 
   @Nullable

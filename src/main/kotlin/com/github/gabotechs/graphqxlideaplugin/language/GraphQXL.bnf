@@ -84,15 +84,14 @@ schema_def ::= description? SCHEMA_KEYWORD directive* schema_selection_set { pin
     schema_field ::= schema_key COLON identifier
 generic_type_def ::= description_variables? description? TYPE_KEYWORD identifier directive* EQUALS modified_ref { pin=6 methods=[nameIdentifier="identifier"] }
 type_def ::= description_variables? description? TYPE_KEYWORD identifier generic? implements? directive* type_selection_set { pin=3 methods=[nameIdentifier="identifier"] }
-    implements ::= IMPLEMENTS_KEYWORD identifier (AMP identifier)*
     type_selection_set ::= BRACE_L (field_with_args | spread_reference)* BRACE_R { pin=1 }
 generic_input_def ::= description_variables? description? INPUT_KEYWORD identifier directive* EQUALS modified_ref { pin=6 methods=[nameIdentifier="identifier"] }
 input_def ::= description_variables? description? INPUT_KEYWORD identifier generic? directive* input_selection_set { pin=3 methods=[nameIdentifier="identifier"] }
     input_selection_set ::= BRACE_L (field_without_args | spread_reference)* BRACE_R { pin=1 }
 enum_def ::= description? ENUM_KEYWORD identifier directive* enum_selection_set { pin=2 methods=[nameIdentifier="identifier"] }
     enum_selection_set ::= BRACE_L (field_without_args_without_value | spread_reference)* BRACE_R { pin=1 }
-interface_def ::= description? INTERFACE_KEYWORD identifier directive* interface_selection_set { pin=2 methods=[nameIdentifier="identifier"] }
-    interface_selection_set ::= BRACE_L field_with_args* BRACE_R { pin=1 }
+interface_def ::= description? INTERFACE_KEYWORD identifier implements? directive* interface_selection_set { pin=2 methods=[nameIdentifier="identifier"] }
+    interface_selection_set ::= BRACE_L (field_without_args | spread_reference)* BRACE_R { pin=1 }
 scalar_def ::= description? SCALAR_KEYWORD identifier directive* { pin=2 methods=[nameIdentifier="identifier"] }
 union_def ::= description? UNION_KEYWORD identifier directive* EQUALS other_identifier (PIPE other_identifier)* { pin=2 methods=[nameIdentifier="identifier"] }
     other_identifier ::= identifier
@@ -119,6 +118,7 @@ directive_def ::= description? DIRECTIVE_KEYWORD AT identifier arguments? direct
         "INPUT_FIELD_DEFINITION" |
         "VARIABLE_DEFINITION"
 
+implements ::= IMPLEMENTS_KEYWORD identifier (AMP identifier)*
 field_with_args ::= description? identifier arguments? COLON value_type directive* { pin=2 methods=[nameIdentifier="identifier"]}
 field_without_args ::= description? identifier COLON value_type directive* { pin=2 methods=[nameIdentifier="identifier"]}
 field_without_args_without_value ::= description? identifier directive* { pin=2 methods=[nameIdentifier="identifier"]}

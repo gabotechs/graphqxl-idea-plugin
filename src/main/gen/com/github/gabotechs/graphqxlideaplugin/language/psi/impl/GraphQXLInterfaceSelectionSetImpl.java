@@ -28,8 +28,14 @@ public class GraphQXLInterfaceSelectionSetImpl extends GraphQXLElementImpl imple
 
   @Override
   @NotNull
-  public List<GraphQXLFieldWithArgs> getFieldWithArgsList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GraphQXLFieldWithArgs.class);
+  public List<GraphQXLFieldWithoutArgs> getFieldWithoutArgsList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GraphQXLFieldWithoutArgs.class);
+  }
+
+  @Override
+  @NotNull
+  public List<GraphQXLSpreadReference> getSpreadReferenceList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GraphQXLSpreadReference.class);
   }
 
 }

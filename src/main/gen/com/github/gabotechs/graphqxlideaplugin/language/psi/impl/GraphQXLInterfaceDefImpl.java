@@ -40,6 +40,12 @@ public class GraphQXLInterfaceDefImpl extends GraphQXLNamedElementImpl implement
 
   @Override
   @Nullable
+  public GraphQXLImplements getImplements() {
+    return findChildByClass(GraphQXLImplements.class);
+  }
+
+  @Override
+  @Nullable
   public GraphQXLInterfaceSelectionSet getInterfaceSelectionSet() {
     return findChildByClass(GraphQXLInterfaceSelectionSet.class);
   }

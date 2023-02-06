@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface GraphQXLInterfaceSelectionSet extends GraphQXLElement {
 
   @NotNull
-  List<GraphQXLFieldWithArgs> getFieldWithArgsList();
+  List<GraphQXLFieldWithoutArgs> getFieldWithoutArgsList();
+
+  @NotNull
+  List<GraphQXLSpreadReference> getSpreadReferenceList();
 
 }
