@@ -14,6 +14,9 @@ public interface GraphQXLDef extends GraphQXLElement {
   GraphQXLEnumDef getEnumDef();
 
   @Nullable
+  GraphQXLEnumExt getEnumExt();
+
+  @Nullable
   GraphQXLGenericInputDef getGenericInputDef();
 
   @Nullable
@@ -23,18 +26,36 @@ public interface GraphQXLDef extends GraphQXLElement {
   GraphQXLInputDef getInputDef();
 
   @Nullable
+  GraphQXLInputExt getInputExt();
+
+  @Nullable
   GraphQXLInterfaceDef getInterfaceDef();
+
+  @Nullable
+  GraphQXLInterfaceExt getInterfaceExt();
 
   @Nullable
   GraphQXLScalarDef getScalarDef();
 
   @Nullable
+  GraphQXLScalarExt getScalarExt();
+
+  @Nullable
   GraphQXLSchemaDef getSchemaDef();
+
+  @Nullable
+  GraphQXLSchemaExt getSchemaExt();
 
   @Nullable
   GraphQXLTypeDef getTypeDef();
 
   @Nullable
+  GraphQXLTypeExt getTypeExt();
+
+  @Nullable
   GraphQXLUnionDef getUnionDef();
+
+  @Nullable
+  GraphQXLUnionExt getUnionExt();
 
 }

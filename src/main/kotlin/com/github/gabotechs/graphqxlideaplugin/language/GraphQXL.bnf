@@ -15,8 +15,8 @@
   elementTypeClass="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLElementType"
   tokenTypeClass="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLTokenType"
 
-  implements("generic_type_def|type_def|generic_input_def|input_def|enum_def|interface_def|scalar_def|union_def|direcive_def|field_with_args|field_without_args|field_without_args_without_value")="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLNamedElement"
-  mixin(     "generic_type_def|type_def|generic_input_def|input_def|enum_def|interface_def|scalar_def|union_def|direcive_def|field_with_args|field_without_args|field_without_args_without_value")="com.github.gabotechs.graphqxlideaplugin.language.psi.impl.GraphQXLNamedElementImpl"
+  implements("generic_type_def|type_def|type_ext|generic_input_def|input_def|input_ext|enum_def|enum_ext|interface_def|interface_ext|scalar_def|scalar_ext|union_def|union_ext|direcive_def|field_with_args|field_without_args|field_without_args_without_value")="com.github.gabotechs.graphqxlideaplugin.language.psi.GraphQXLNamedElement"
+  mixin(     "generic_type_def|type_def|type_ext|generic_input_def|input_def|input_ext|enum_def|enum_ext|interface_def|interface_ext|scalar_def|scalar_ext|union_def|union_ext|direcive_def|field_with_args|field_without_args|field_without_args_without_value")="com.github.gabotechs.graphqxlideaplugin.language.psi.impl.GraphQXLNamedElementImpl"
 
   tokens = [
 
@@ -45,6 +45,7 @@
     MUTATION_KEYWORD="mutation"
     SUBSCRIPTION_KEYWORD="subscription"
     ON_KEYWORD="on"
+    EXTEND_KEYWORD="extend"
     SCHEMA_KEYWORD="schema"
     TYPE_KEYWORD="type"
     SCALAR_KEYWORD="scalar"
@@ -76,24 +77,48 @@ document ::= import* def*
 import ::= IMPORT_KEYWORD filename
 filename ::= OPEN_QUOTE char_no_double_quote CLOSING_QUOTE { pin=1 }
 
-def ::= schema_def | generic_type_def | type_def | generic_input_def | input_def | enum_def | interface_def | scalar_def | union_def | directive_def
+def ::=
+    schema_def |
+    schema_ext |
+    generic_type_def |
+    type_def |
+    type_ext |
+    generic_input_def |
+    input_def |
+    input_ext |
+    enum_def |
+    enum_ext |
+    interface_def |
+    interface_ext |
+    scalar_def |
+    scalar_ext |
+    union_def |
+    union_ext |
+    directive_def
 
 schema_def ::= description? SCHEMA_KEYWORD directive* schema_selection_set { pin=2 }
+schema_ext ::= EXTEND_KEYWORD SCHEMA_KEYWORD directive* schema_selection_set? { pin=2 }
     schema_key ::= QUERY_KEYWORD | MUTATION_KEYWORD | SUBSCRIPTION_KEYWORD
     schema_selection_set ::= BRACE_L schema_field BRACE_R { pin=1 }
     schema_field ::= schema_key COLON identifier
 generic_type_def ::= description_variables? description? TYPE_KEYWORD identifier directive* EQUALS modified_ref { pin=6 methods=[nameIdentifier="identifier"] }
 type_def ::= description_variables? description? TYPE_KEYWORD identifier generic? implements? directive* type_selection_set { pin=3 methods=[nameIdentifier="identifier"] }
+type_ext ::= EXTEND_KEYWORD TYPE_KEYWORD identifier generic? implements? directive* type_selection_set? { pin=2 methods=[nameIdentifier="identifier"] }
     type_selection_set ::= BRACE_L (field_with_args | spread_reference)* BRACE_R { pin=1 }
 generic_input_def ::= description_variables? description? INPUT_KEYWORD identifier directive* EQUALS modified_ref { pin=6 methods=[nameIdentifier="identifier"] }
 input_def ::= description_variables? description? INPUT_KEYWORD identifier generic? directive* input_selection_set { pin=3 methods=[nameIdentifier="identifier"] }
+input_ext ::= EXTEND_KEYWORD INPUT_KEYWORD identifier generic? directive* input_selection_set? { pin=2 methods=[nameIdentifier="identifier"] }
     input_selection_set ::= BRACE_L (field_without_args | spread_reference)* BRACE_R { pin=1 }
 enum_def ::= description? ENUM_KEYWORD identifier directive* enum_selection_set { pin=2 methods=[nameIdentifier="identifier"] }
+enum_ext ::= EXTEND_KEYWORD ENUM_KEYWORD identifier directive* enum_selection_set? { pin=2 methods=[nameIdentifier="identifier"] }
     enum_selection_set ::= BRACE_L (field_without_args_without_value | spread_reference)* BRACE_R { pin=1 }
 interface_def ::= description? INTERFACE_KEYWORD identifier implements? directive* interface_selection_set { pin=2 methods=[nameIdentifier="identifier"] }
+interface_ext ::= EXTEND_KEYWORD INTERFACE_KEYWORD identifier implements? directive* interface_selection_set? { pin=2 methods=[nameIdentifier="identifier"] }
     interface_selection_set ::= BRACE_L (field_without_args | spread_reference)* BRACE_R { pin=1 }
 scalar_def ::= description? SCALAR_KEYWORD identifier directive* { pin=2 methods=[nameIdentifier="identifier"] }
+scalar_ext ::= EXTEND_KEYWORD SCALAR_KEYWORD identifier directive* { pin=2 methods=[nameIdentifier="identifier"] }
 union_def ::= description? UNION_KEYWORD identifier directive* EQUALS other_identifier (PIPE other_identifier)* { pin=2 methods=[nameIdentifier="identifier"] }
+union_ext ::= EXTEND_KEYWORD UNION_KEYWORD identifier directive* (EQUALS other_identifier)? (PIPE other_identifier)* { pin=2 methods=[nameIdentifier="identifier"] }
     other_identifier ::= identifier
 directive_def ::= description? DIRECTIVE_KEYWORD AT identifier arguments? directive_repeatable? ON_KEYWORD directive_location (PIPE directive_location)* { pin=2 methods=[nameIdentifier="identifier"] }
     directive_repeatable ::= REPEATABLE_KEYWORD
@@ -178,6 +203,7 @@ identifier ::= NAME |
     MUTATION_KEYWORD |
     SUBSCRIPTION_KEYWORD |
     ON_KEYWORD |
+    EXTEND_KEYWORD |
     SCHEMA_KEYWORD |
     TYPE_KEYWORD |
     SCALAR_KEYWORD |

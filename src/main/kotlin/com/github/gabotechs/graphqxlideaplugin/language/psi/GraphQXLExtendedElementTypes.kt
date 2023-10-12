@@ -12,6 +12,7 @@ class GraphQXLExtendedElementTypes {
             MUTATION_KEYWORD,
             SUBSCRIPTION_KEYWORD,
             ON_KEYWORD,
+            EXTEND_KEYWORD,
             SCHEMA_KEYWORD,
             TYPE_KEYWORD,
             SCALAR_KEYWORD,
