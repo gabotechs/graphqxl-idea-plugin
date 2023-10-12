@@ -4,6 +4,7 @@ enum class GraphQXLCompletionKeyword(val text: String) {
     QUERY("query"),
     SUBSCRIPTION("subscription"),
     MUTATION("mutation"),
+    EXTEND("extend"),
     SCHEMA("schema"),
     SCALAR("scalar"),
     TYPE("type"),

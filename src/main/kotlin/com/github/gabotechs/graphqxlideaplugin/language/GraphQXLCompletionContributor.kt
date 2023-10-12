@@ -46,6 +46,7 @@ class GraphQXLCompletionContributor : CompletionContributor() {
             GraphQXLCompletionKeyword.QUERY,
             GraphQXLCompletionKeyword.SUBSCRIPTION,
             GraphQXLCompletionKeyword.MUTATION,
+            GraphQXLCompletionKeyword.EXTEND,
             GraphQXLCompletionKeyword.SCHEMA,
             GraphQXLCompletionKeyword.SCALAR,
             GraphQXLCompletionKeyword.TYPE,

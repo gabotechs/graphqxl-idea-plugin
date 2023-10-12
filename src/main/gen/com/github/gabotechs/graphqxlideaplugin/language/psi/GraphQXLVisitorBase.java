@@ -70,6 +70,10 @@ public class GraphQXLVisitorBase extends PsiElementVisitor {
     visitNamedElement(o);
   }
 
+  public void visitEnumExt(@NotNull GraphQXLEnumExt o) {
+    visitNamedElement(o);
+  }
+
   public void visitEnumSelectionSet(@NotNull GraphQXLEnumSelectionSet o) {
     visitElement(o);
   }
@@ -142,6 +146,10 @@ public class GraphQXLVisitorBase extends PsiElementVisitor {
     visitNamedElement(o);
   }
 
+  public void visitInputExt(@NotNull GraphQXLInputExt o) {
+    visitNamedElement(o);
+  }
+
   public void visitInputSelectionSet(@NotNull GraphQXLInputSelectionSet o) {
     visitElement(o);
   }
@@ -155,6 +163,10 @@ public class GraphQXLVisitorBase extends PsiElementVisitor {
   }
 
   public void visitInterfaceDef(@NotNull GraphQXLInterfaceDef o) {
+    visitNamedElement(o);
+  }
+
+  public void visitInterfaceExt(@NotNull GraphQXLInterfaceExt o) {
     visitNamedElement(o);
   }
 
@@ -206,7 +218,15 @@ public class GraphQXLVisitorBase extends PsiElementVisitor {
     visitNamedElement(o);
   }
 
+  public void visitScalarExt(@NotNull GraphQXLScalarExt o) {
+    visitNamedElement(o);
+  }
+
   public void visitSchemaDef(@NotNull GraphQXLSchemaDef o) {
+    visitElement(o);
+  }
+
+  public void visitSchemaExt(@NotNull GraphQXLSchemaExt o) {
     visitElement(o);
   }
 
@@ -238,11 +258,19 @@ public class GraphQXLVisitorBase extends PsiElementVisitor {
     visitNamedElement(o);
   }
 
+  public void visitTypeExt(@NotNull GraphQXLTypeExt o) {
+    visitNamedElement(o);
+  }
+
   public void visitTypeSelectionSet(@NotNull GraphQXLTypeSelectionSet o) {
     visitElement(o);
   }
 
   public void visitUnionDef(@NotNull GraphQXLUnionDef o) {
+    visitNamedElement(o);
+  }
+
+  public void visitUnionExt(@NotNull GraphQXLUnionExt o) {
     visitNamedElement(o);
   }
 

@@ -177,20 +177,43 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // schema_def | generic_type_def | type_def | generic_input_def | input_def | enum_def | interface_def | scalar_def | union_def | directive_def
+  // schema_def |
+  //     schema_ext |
+  //     generic_type_def |
+  //     type_def |
+  //     type_ext |
+  //     generic_input_def |
+  //     input_def |
+  //     input_ext |
+  //     enum_def |
+  //     enum_ext |
+  //     interface_def |
+  //     interface_ext |
+  //     scalar_def |
+  //     scalar_ext |
+  //     union_def |
+  //     union_ext |
+  //     directive_def
   public static boolean def(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "def")) return false;
     boolean result;
     Marker marker = enter_section_(builder, level, _NONE_, DEF, "<def>");
     result = schema_def(builder, level + 1);
+    if (!result) result = schema_ext(builder, level + 1);
     if (!result) result = generic_type_def(builder, level + 1);
     if (!result) result = type_def(builder, level + 1);
+    if (!result) result = type_ext(builder, level + 1);
     if (!result) result = generic_input_def(builder, level + 1);
     if (!result) result = input_def(builder, level + 1);
+    if (!result) result = input_ext(builder, level + 1);
     if (!result) result = enum_def(builder, level + 1);
+    if (!result) result = enum_ext(builder, level + 1);
     if (!result) result = interface_def(builder, level + 1);
+    if (!result) result = interface_ext(builder, level + 1);
     if (!result) result = scalar_def(builder, level + 1);
+    if (!result) result = scalar_ext(builder, level + 1);
     if (!result) result = union_def(builder, level + 1);
+    if (!result) result = union_ext(builder, level + 1);
     if (!result) result = directive_def(builder, level + 1);
     exit_section_(builder, level, marker, result, false, null);
     return result;
@@ -460,6 +483,40 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
       if (!directive(builder, level + 1)) break;
       if (!empty_element_parsed_guard_(builder, "enum_def_3", pos)) break;
     }
+    return true;
+  }
+
+  /* ********************************************************** */
+  // EXTEND_KEYWORD ENUM_KEYWORD identifier directive* enum_selection_set?
+  public static boolean enum_ext(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "enum_ext")) return false;
+    if (!nextTokenIs(builder, EXTEND_KEYWORD)) return false;
+    boolean result, pinned;
+    Marker marker = enter_section_(builder, level, _NONE_, ENUM_EXT, null);
+    result = consumeTokens(builder, 2, EXTEND_KEYWORD, ENUM_KEYWORD);
+    pinned = result; // pin = 2
+    result = result && report_error_(builder, identifier(builder, level + 1));
+    result = pinned && report_error_(builder, enum_ext_3(builder, level + 1)) && result;
+    result = pinned && enum_ext_4(builder, level + 1) && result;
+    exit_section_(builder, level, marker, result, pinned, null);
+    return result || pinned;
+  }
+
+  // directive*
+  private static boolean enum_ext_3(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "enum_ext_3")) return false;
+    while (true) {
+      int pos = current_position_(builder);
+      if (!directive(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "enum_ext_3", pos)) break;
+    }
+    return true;
+  }
+
+  // enum_selection_set?
+  private static boolean enum_ext_4(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "enum_ext_4")) return false;
+    enum_selection_set(builder, level + 1);
     return true;
   }
 
@@ -852,6 +909,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   //     MUTATION_KEYWORD |
   //     SUBSCRIPTION_KEYWORD |
   //     ON_KEYWORD |
+  //     EXTEND_KEYWORD |
   //     SCHEMA_KEYWORD |
   //     TYPE_KEYWORD |
   //     SCALAR_KEYWORD |
@@ -872,6 +930,7 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
     if (!result) result = consumeToken(builder, MUTATION_KEYWORD);
     if (!result) result = consumeToken(builder, SUBSCRIPTION_KEYWORD);
     if (!result) result = consumeToken(builder, ON_KEYWORD);
+    if (!result) result = consumeToken(builder, EXTEND_KEYWORD);
     if (!result) result = consumeToken(builder, SCHEMA_KEYWORD);
     if (!result) result = consumeToken(builder, TYPE_KEYWORD);
     if (!result) result = consumeToken(builder, SCALAR_KEYWORD);
@@ -986,6 +1045,48 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // EXTEND_KEYWORD INPUT_KEYWORD identifier generic? directive* input_selection_set?
+  public static boolean input_ext(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "input_ext")) return false;
+    if (!nextTokenIs(builder, EXTEND_KEYWORD)) return false;
+    boolean result, pinned;
+    Marker marker = enter_section_(builder, level, _NONE_, INPUT_EXT, null);
+    result = consumeTokens(builder, 2, EXTEND_KEYWORD, INPUT_KEYWORD);
+    pinned = result; // pin = 2
+    result = result && report_error_(builder, identifier(builder, level + 1));
+    result = pinned && report_error_(builder, input_ext_3(builder, level + 1)) && result;
+    result = pinned && report_error_(builder, input_ext_4(builder, level + 1)) && result;
+    result = pinned && input_ext_5(builder, level + 1) && result;
+    exit_section_(builder, level, marker, result, pinned, null);
+    return result || pinned;
+  }
+
+  // generic?
+  private static boolean input_ext_3(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "input_ext_3")) return false;
+    generic(builder, level + 1);
+    return true;
+  }
+
+  // directive*
+  private static boolean input_ext_4(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "input_ext_4")) return false;
+    while (true) {
+      int pos = current_position_(builder);
+      if (!directive(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "input_ext_4", pos)) break;
+    }
+    return true;
+  }
+
+  // input_selection_set?
+  private static boolean input_ext_5(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "input_ext_5")) return false;
+    input_selection_set(builder, level + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
   // BRACE_L (field_without_args | spread_reference)* BRACE_R
   public static boolean input_selection_set(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "input_selection_set")) return false;
@@ -1082,6 +1183,48 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
       if (!directive(builder, level + 1)) break;
       if (!empty_element_parsed_guard_(builder, "interface_def_4", pos)) break;
     }
+    return true;
+  }
+
+  /* ********************************************************** */
+  // EXTEND_KEYWORD INTERFACE_KEYWORD identifier implements? directive* interface_selection_set?
+  public static boolean interface_ext(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "interface_ext")) return false;
+    if (!nextTokenIs(builder, EXTEND_KEYWORD)) return false;
+    boolean result, pinned;
+    Marker marker = enter_section_(builder, level, _NONE_, INTERFACE_EXT, null);
+    result = consumeTokens(builder, 2, EXTEND_KEYWORD, INTERFACE_KEYWORD);
+    pinned = result; // pin = 2
+    result = result && report_error_(builder, identifier(builder, level + 1));
+    result = pinned && report_error_(builder, interface_ext_3(builder, level + 1)) && result;
+    result = pinned && report_error_(builder, interface_ext_4(builder, level + 1)) && result;
+    result = pinned && interface_ext_5(builder, level + 1) && result;
+    exit_section_(builder, level, marker, result, pinned, null);
+    return result || pinned;
+  }
+
+  // implements?
+  private static boolean interface_ext_3(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "interface_ext_3")) return false;
+    implements_$(builder, level + 1);
+    return true;
+  }
+
+  // directive*
+  private static boolean interface_ext_4(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "interface_ext_4")) return false;
+    while (true) {
+      int pos = current_position_(builder);
+      if (!directive(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "interface_ext_4", pos)) break;
+    }
+    return true;
+  }
+
+  // interface_selection_set?
+  private static boolean interface_ext_5(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "interface_ext_5")) return false;
+    interface_selection_set(builder, level + 1);
     return true;
   }
 
@@ -1382,6 +1525,32 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // EXTEND_KEYWORD SCALAR_KEYWORD identifier directive*
+  public static boolean scalar_ext(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "scalar_ext")) return false;
+    if (!nextTokenIs(builder, EXTEND_KEYWORD)) return false;
+    boolean result, pinned;
+    Marker marker = enter_section_(builder, level, _NONE_, SCALAR_EXT, null);
+    result = consumeTokens(builder, 2, EXTEND_KEYWORD, SCALAR_KEYWORD);
+    pinned = result; // pin = 2
+    result = result && report_error_(builder, identifier(builder, level + 1));
+    result = pinned && scalar_ext_3(builder, level + 1) && result;
+    exit_section_(builder, level, marker, result, pinned, null);
+    return result || pinned;
+  }
+
+  // directive*
+  private static boolean scalar_ext_3(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "scalar_ext_3")) return false;
+    while (true) {
+      int pos = current_position_(builder);
+      if (!directive(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "scalar_ext_3", pos)) break;
+    }
+    return true;
+  }
+
+  /* ********************************************************** */
   // description? SCHEMA_KEYWORD directive* schema_selection_set
   public static boolean schema_def(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "schema_def")) return false;
@@ -1411,6 +1580,39 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
       if (!directive(builder, level + 1)) break;
       if (!empty_element_parsed_guard_(builder, "schema_def_2", pos)) break;
     }
+    return true;
+  }
+
+  /* ********************************************************** */
+  // EXTEND_KEYWORD SCHEMA_KEYWORD directive* schema_selection_set?
+  public static boolean schema_ext(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "schema_ext")) return false;
+    if (!nextTokenIs(builder, EXTEND_KEYWORD)) return false;
+    boolean result, pinned;
+    Marker marker = enter_section_(builder, level, _NONE_, SCHEMA_EXT, null);
+    result = consumeTokens(builder, 2, EXTEND_KEYWORD, SCHEMA_KEYWORD);
+    pinned = result; // pin = 2
+    result = result && report_error_(builder, schema_ext_2(builder, level + 1));
+    result = pinned && schema_ext_3(builder, level + 1) && result;
+    exit_section_(builder, level, marker, result, pinned, null);
+    return result || pinned;
+  }
+
+  // directive*
+  private static boolean schema_ext_2(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "schema_ext_2")) return false;
+    while (true) {
+      int pos = current_position_(builder);
+      if (!directive(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "schema_ext_2", pos)) break;
+    }
+    return true;
+  }
+
+  // schema_selection_set?
+  private static boolean schema_ext_3(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "schema_ext_3")) return false;
+    schema_selection_set(builder, level + 1);
     return true;
   }
 
@@ -1559,6 +1761,56 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // EXTEND_KEYWORD TYPE_KEYWORD identifier generic? implements? directive* type_selection_set?
+  public static boolean type_ext(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "type_ext")) return false;
+    if (!nextTokenIs(builder, EXTEND_KEYWORD)) return false;
+    boolean result, pinned;
+    Marker marker = enter_section_(builder, level, _NONE_, TYPE_EXT, null);
+    result = consumeTokens(builder, 2, EXTEND_KEYWORD, TYPE_KEYWORD);
+    pinned = result; // pin = 2
+    result = result && report_error_(builder, identifier(builder, level + 1));
+    result = pinned && report_error_(builder, type_ext_3(builder, level + 1)) && result;
+    result = pinned && report_error_(builder, type_ext_4(builder, level + 1)) && result;
+    result = pinned && report_error_(builder, type_ext_5(builder, level + 1)) && result;
+    result = pinned && type_ext_6(builder, level + 1) && result;
+    exit_section_(builder, level, marker, result, pinned, null);
+    return result || pinned;
+  }
+
+  // generic?
+  private static boolean type_ext_3(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "type_ext_3")) return false;
+    generic(builder, level + 1);
+    return true;
+  }
+
+  // implements?
+  private static boolean type_ext_4(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "type_ext_4")) return false;
+    implements_$(builder, level + 1);
+    return true;
+  }
+
+  // directive*
+  private static boolean type_ext_5(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "type_ext_5")) return false;
+    while (true) {
+      int pos = current_position_(builder);
+      if (!directive(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "type_ext_5", pos)) break;
+    }
+    return true;
+  }
+
+  // type_selection_set?
+  private static boolean type_ext_6(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "type_ext_6")) return false;
+    type_selection_set(builder, level + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
   // BRACE_L (field_with_args | spread_reference)* BRACE_R
   public static boolean type_selection_set(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "type_selection_set")) return false;
@@ -1643,6 +1895,74 @@ public class GraphQXLParser implements PsiParser, LightPsiParser {
   // PIPE other_identifier
   private static boolean union_def_6_0(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "union_def_6_0")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = consumeToken(builder, PIPE);
+    result = result && other_identifier(builder, level + 1);
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  /* ********************************************************** */
+  // EXTEND_KEYWORD UNION_KEYWORD identifier directive* (EQUALS other_identifier)? (PIPE other_identifier)*
+  public static boolean union_ext(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "union_ext")) return false;
+    if (!nextTokenIs(builder, EXTEND_KEYWORD)) return false;
+    boolean result, pinned;
+    Marker marker = enter_section_(builder, level, _NONE_, UNION_EXT, null);
+    result = consumeTokens(builder, 2, EXTEND_KEYWORD, UNION_KEYWORD);
+    pinned = result; // pin = 2
+    result = result && report_error_(builder, identifier(builder, level + 1));
+    result = pinned && report_error_(builder, union_ext_3(builder, level + 1)) && result;
+    result = pinned && report_error_(builder, union_ext_4(builder, level + 1)) && result;
+    result = pinned && union_ext_5(builder, level + 1) && result;
+    exit_section_(builder, level, marker, result, pinned, null);
+    return result || pinned;
+  }
+
+  // directive*
+  private static boolean union_ext_3(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "union_ext_3")) return false;
+    while (true) {
+      int pos = current_position_(builder);
+      if (!directive(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "union_ext_3", pos)) break;
+    }
+    return true;
+  }
+
+  // (EQUALS other_identifier)?
+  private static boolean union_ext_4(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "union_ext_4")) return false;
+    union_ext_4_0(builder, level + 1);
+    return true;
+  }
+
+  // EQUALS other_identifier
+  private static boolean union_ext_4_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "union_ext_4_0")) return false;
+    boolean result;
+    Marker marker = enter_section_(builder);
+    result = consumeToken(builder, EQUALS);
+    result = result && other_identifier(builder, level + 1);
+    exit_section_(builder, marker, null, result);
+    return result;
+  }
+
+  // (PIPE other_identifier)*
+  private static boolean union_ext_5(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "union_ext_5")) return false;
+    while (true) {
+      int pos = current_position_(builder);
+      if (!union_ext_5_0(builder, level + 1)) break;
+      if (!empty_element_parsed_guard_(builder, "union_ext_5", pos)) break;
+    }
+    return true;
+  }
+
+  // PIPE other_identifier
+  private static boolean union_ext_5_0(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "union_ext_5_0")) return false;
     boolean result;
     Marker marker = enter_section_(builder);
     result = consumeToken(builder, PIPE);

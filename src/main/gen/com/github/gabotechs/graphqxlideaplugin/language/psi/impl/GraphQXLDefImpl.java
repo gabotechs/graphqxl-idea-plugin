@@ -40,6 +40,12 @@ public class GraphQXLDefImpl extends GraphQXLElementImpl implements GraphQXLDef 
 
   @Override
   @Nullable
+  public GraphQXLEnumExt getEnumExt() {
+    return findChildByClass(GraphQXLEnumExt.class);
+  }
+
+  @Override
+  @Nullable
   public GraphQXLGenericInputDef getGenericInputDef() {
     return findChildByClass(GraphQXLGenericInputDef.class);
   }
@@ -58,8 +64,20 @@ public class GraphQXLDefImpl extends GraphQXLElementImpl implements GraphQXLDef 
 
   @Override
   @Nullable
+  public GraphQXLInputExt getInputExt() {
+    return findChildByClass(GraphQXLInputExt.class);
+  }
+
+  @Override
+  @Nullable
   public GraphQXLInterfaceDef getInterfaceDef() {
     return findChildByClass(GraphQXLInterfaceDef.class);
+  }
+
+  @Override
+  @Nullable
+  public GraphQXLInterfaceExt getInterfaceExt() {
+    return findChildByClass(GraphQXLInterfaceExt.class);
   }
 
   @Override
@@ -70,8 +88,20 @@ public class GraphQXLDefImpl extends GraphQXLElementImpl implements GraphQXLDef 
 
   @Override
   @Nullable
+  public GraphQXLScalarExt getScalarExt() {
+    return findChildByClass(GraphQXLScalarExt.class);
+  }
+
+  @Override
+  @Nullable
   public GraphQXLSchemaDef getSchemaDef() {
     return findChildByClass(GraphQXLSchemaDef.class);
+  }
+
+  @Override
+  @Nullable
+  public GraphQXLSchemaExt getSchemaExt() {
+    return findChildByClass(GraphQXLSchemaExt.class);
   }
 
   @Override
@@ -82,8 +112,20 @@ public class GraphQXLDefImpl extends GraphQXLElementImpl implements GraphQXLDef 
 
   @Override
   @Nullable
+  public GraphQXLTypeExt getTypeExt() {
+    return findChildByClass(GraphQXLTypeExt.class);
+  }
+
+  @Override
+  @Nullable
   public GraphQXLUnionDef getUnionDef() {
     return findChildByClass(GraphQXLUnionDef.class);
+  }
+
+  @Override
+  @Nullable
+  public GraphQXLUnionExt getUnionExt() {
+    return findChildByClass(GraphQXLUnionExt.class);
   }
 
 }

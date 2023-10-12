@@ -126,6 +126,7 @@ FLOAT_NUMBER = {INTEGER_PART} {FRACTIONAL_PART} | {INTEGER_PART} {EXPONENT_PART}
   "mutation"         { return MUTATION_KEYWORD; }
   "subscription"     { return SUBSCRIPTION_KEYWORD; }
   "on"               { return ON_KEYWORD; }
+  "extend"           { return EXTEND_KEYWORD; }
   "schema"           { return SCHEMA_KEYWORD; }
   "type"             { return TYPE_KEYWORD; }
   "scalar"           { return SCALAR_KEYWORD; }

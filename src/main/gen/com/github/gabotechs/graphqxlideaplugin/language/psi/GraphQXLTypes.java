@@ -24,6 +24,7 @@ public interface GraphQXLTypes {
   IElementType DIRECTIVE_LOCATION = new GraphQXLElementType("DIRECTIVE_LOCATION");
   IElementType DIRECTIVE_REPEATABLE = new GraphQXLElementType("DIRECTIVE_REPEATABLE");
   IElementType ENUM_DEF = new GraphQXLElementType("ENUM_DEF");
+  IElementType ENUM_EXT = new GraphQXLElementType("ENUM_EXT");
   IElementType ENUM_SELECTION_SET = new GraphQXLElementType("ENUM_SELECTION_SET");
   IElementType EXPANDABLE_REF = new GraphQXLElementType("EXPANDABLE_REF");
   IElementType FIELD_WITHOUT_ARGS = new GraphQXLElementType("FIELD_WITHOUT_ARGS");
@@ -42,9 +43,11 @@ public interface GraphQXLTypes {
   IElementType IMPLEMENTS = new GraphQXLElementType("IMPLEMENTS");
   IElementType IMPORT = new GraphQXLElementType("IMPORT");
   IElementType INPUT_DEF = new GraphQXLElementType("INPUT_DEF");
+  IElementType INPUT_EXT = new GraphQXLElementType("INPUT_EXT");
   IElementType INPUT_SELECTION_SET = new GraphQXLElementType("INPUT_SELECTION_SET");
   IElementType INT = new GraphQXLElementType("INT");
   IElementType INTERFACE_DEF = new GraphQXLElementType("INTERFACE_DEF");
+  IElementType INTERFACE_EXT = new GraphQXLElementType("INTERFACE_EXT");
   IElementType INTERFACE_SELECTION_SET = new GraphQXLElementType("INTERFACE_SELECTION_SET");
   IElementType INT_DATA = new GraphQXLElementType("INT_DATA");
   IElementType LIST_DATA = new GraphQXLElementType("LIST_DATA");
@@ -58,7 +61,9 @@ public interface GraphQXLTypes {
   IElementType OTHER_IDENTIFIER = new GraphQXLElementType("OTHER_IDENTIFIER");
   IElementType REQUIRED_MODIFIER = new GraphQXLElementType("REQUIRED_MODIFIER");
   IElementType SCALAR_DEF = new GraphQXLElementType("SCALAR_DEF");
+  IElementType SCALAR_EXT = new GraphQXLElementType("SCALAR_EXT");
   IElementType SCHEMA_DEF = new GraphQXLElementType("SCHEMA_DEF");
+  IElementType SCHEMA_EXT = new GraphQXLElementType("SCHEMA_EXT");
   IElementType SCHEMA_FIELD = new GraphQXLElementType("SCHEMA_FIELD");
   IElementType SCHEMA_KEY = new GraphQXLElementType("SCHEMA_KEY");
   IElementType SCHEMA_SELECTION_SET = new GraphQXLElementType("SCHEMA_SELECTION_SET");
@@ -66,8 +71,10 @@ public interface GraphQXLTypes {
   IElementType STRING = new GraphQXLElementType("STRING");
   IElementType STRING_DATA = new GraphQXLElementType("STRING_DATA");
   IElementType TYPE_DEF = new GraphQXLElementType("TYPE_DEF");
+  IElementType TYPE_EXT = new GraphQXLElementType("TYPE_EXT");
   IElementType TYPE_SELECTION_SET = new GraphQXLElementType("TYPE_SELECTION_SET");
   IElementType UNION_DEF = new GraphQXLElementType("UNION_DEF");
+  IElementType UNION_EXT = new GraphQXLElementType("UNION_EXT");
   IElementType VALUE_ARRAY = new GraphQXLElementType("VALUE_ARRAY");
   IElementType VALUE_BASIC_TYPE = new GraphQXLElementType("VALUE_BASIC_TYPE");
   IElementType VALUE_DATA = new GraphQXLElementType("VALUE_DATA");
@@ -92,6 +99,7 @@ public interface GraphQXLTypes {
   IElementType ENUM_KEYWORD = new GraphQXLTokenType("enum");
   IElementType EOL_COMMENT = new GraphQXLTokenType("EOL_COMMENT");
   IElementType EQUALS = new GraphQXLTokenType("=");
+  IElementType EXTEND_KEYWORD = new GraphQXLTokenType("extend");
   IElementType FLOAT_NUMBER = new GraphQXLTokenType("FLOAT_NUMBER");
   IElementType IMPLEMENTS_KEYWORD = new GraphQXLTokenType("implements");
   IElementType IMPORT_KEYWORD = new GraphQXLTokenType("import");
@@ -170,6 +178,9 @@ public interface GraphQXLTypes {
       else if (type == ENUM_DEF) {
         return new GraphQXLEnumDefImpl(node);
       }
+      else if (type == ENUM_EXT) {
+        return new GraphQXLEnumExtImpl(node);
+      }
       else if (type == ENUM_SELECTION_SET) {
         return new GraphQXLEnumSelectionSetImpl(node);
       }
@@ -224,6 +235,9 @@ public interface GraphQXLTypes {
       else if (type == INPUT_DEF) {
         return new GraphQXLInputDefImpl(node);
       }
+      else if (type == INPUT_EXT) {
+        return new GraphQXLInputExtImpl(node);
+      }
       else if (type == INPUT_SELECTION_SET) {
         return new GraphQXLInputSelectionSetImpl(node);
       }
@@ -232,6 +246,9 @@ public interface GraphQXLTypes {
       }
       else if (type == INTERFACE_DEF) {
         return new GraphQXLInterfaceDefImpl(node);
+      }
+      else if (type == INTERFACE_EXT) {
+        return new GraphQXLInterfaceExtImpl(node);
       }
       else if (type == INTERFACE_SELECTION_SET) {
         return new GraphQXLInterfaceSelectionSetImpl(node);
@@ -272,8 +289,14 @@ public interface GraphQXLTypes {
       else if (type == SCALAR_DEF) {
         return new GraphQXLScalarDefImpl(node);
       }
+      else if (type == SCALAR_EXT) {
+        return new GraphQXLScalarExtImpl(node);
+      }
       else if (type == SCHEMA_DEF) {
         return new GraphQXLSchemaDefImpl(node);
+      }
+      else if (type == SCHEMA_EXT) {
+        return new GraphQXLSchemaExtImpl(node);
       }
       else if (type == SCHEMA_FIELD) {
         return new GraphQXLSchemaFieldImpl(node);
@@ -296,11 +319,17 @@ public interface GraphQXLTypes {
       else if (type == TYPE_DEF) {
         return new GraphQXLTypeDefImpl(node);
       }
+      else if (type == TYPE_EXT) {
+        return new GraphQXLTypeExtImpl(node);
+      }
       else if (type == TYPE_SELECTION_SET) {
         return new GraphQXLTypeSelectionSetImpl(node);
       }
       else if (type == UNION_DEF) {
         return new GraphQXLUnionDefImpl(node);
+      }
+      else if (type == UNION_EXT) {
+        return new GraphQXLUnionExtImpl(node);
       }
       else if (type == VALUE_ARRAY) {
         return new GraphQXLValueArrayImpl(node);
